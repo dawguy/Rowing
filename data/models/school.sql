@@ -1,7 +1,7 @@
 create table school
 (
 	school serial,
-	name varchar
+	name varchar,
     competition_level int
     constraint school_competition_level_fk
         references competition_level
