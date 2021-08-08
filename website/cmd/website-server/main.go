@@ -1,17 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"github.com/dawguy/rowing/website/common"
-	"time"
+	"flag"
+	"github.com/dawguy/rowing/website/server"
 )
 
 func main() {
-	athlete := common.Athlete{
-		1,
-		"David",
-		time.Now(),
-	}
+	port := flag.String("port", "3000", "The port used by the server.")
+	flag.Parse()
+	s := server.NewServer(
+		server.WithPort(*port),
+	)
 
-	fmt.Printf("%s", athlete)
+	s.Start()
 }
