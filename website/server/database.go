@@ -73,7 +73,7 @@ func NewDatabase(opts ...DatabaseOption) *Database {
 	return d
 }
 
-func InitDB(d *Database){
+func InitDB(d *Database) *pgxpool.Pool{
 	url := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", d.username, d.password, d.Addr, d.Port, d.databaseName)
 	dbpool, err := pgxpool.Connect(context.Background(), url)
 	if err != nil {
@@ -82,55 +82,105 @@ func InitDB(d *Database){
 	}
 
 	db = dbpool
+	return db
 }
 
-func QueryBoats() []common.Boat {
-	rows, err := db.Query(context.Background(), "select * from boat")
+func QueryErgWorkouts() []common.ErgWorkout {
+	rows, err := db.Query(context.Background(), "select ergworkout, date, athlete from ErgWorkout")
 
 	if err != nil {
-		fmt.Errorf("Error selecting boats %s", err)
+		fmt.Errorf("Error selecting ergWorkouts %s", err)
 	}
 
 	defer rows.Close()
 
-	boats := make([]common.Boat, 0)
+	ergWorkouts := make([]common.ErgWorkout, 0)
 
 	for rows.Next() {
-		var boat common.Boat
+		var ergWorkout common.ErgWorkout
+		err := rows.Scan(&ergWorkout.ErgWorkout, &ergWorkout.Date, &ergWorkout.Athlete)
 
-		err = rows.Scan(&boat.Boat, &boat.Shell, &boat.Coxswain, &boat.Seat8, &boat.Seat7, &boat.Seat6, &boat.Seat5, &boat.Seat4, &boat.Seat3, &boat.Seat2, &boat.Seat1)
 		if err != nil {
-			fmt.Errorf("Error scanning boat %s", err)
+			fmt.Errorf("Error scanning ergWorkout %s", err)
 		} else {
-			boats = append(boats, boat)
+			ergWorkouts = append(ergWorkouts, ergWorkout)
 		}
 	}
 
-	return boats
+	return ergWorkouts
 }
 
-
-func QueryAthletes() []common.Athlete {
-	rows, err := db.Query(context.Background(), "select athlete, name, birthday from athlete")
+func QueryWaterWorkouts() []common.WaterWorkout {
+	rows, err := db.Query(context.Background(), "select waterworkout, date, boat from WaterWorkout")
 
 	if err != nil {
-		fmt.Errorf("Error selecting athletes %s", err)
+		fmt.Errorf("Error selecting waterWorkouts %s", err)
 	}
 
 	defer rows.Close()
 
-	athletes := make([]common.Athlete, 0)
+	waterWorkouts := make([]common.WaterWorkout, 0)
 
 	for rows.Next() {
-		var athlete common.Athlete
-		err := rows.Scan(&athlete.Athlete, &athlete.Name, &athlete.Birthday)
+		var waterWorkout common.WaterWorkout
+		err := rows.Scan(&waterWorkout.WaterWorkout, &waterWorkout.Date, &waterWorkout.Boat)
 
 		if err != nil {
-			fmt.Errorf("Error scanning athlete %s", err)
+			fmt.Errorf("Error scanning waterWorkout %s", err)
 		} else {
-			athletes = append(athletes, athlete)
+			waterWorkouts = append(waterWorkouts, waterWorkout)
 		}
 	}
 
-	return athletes
+	return waterWorkouts
+}
+
+func queryErgSplits(ergWorkoutId int) []common.ErgSplit {
+	rows, err := db.Query(context.Background(), "select ergsplit, seq, duration, distance, heartrate, power, ergworkout from ergSplit where ergworkout = ?", ergWorkoutId)
+
+	if err != nil {
+		fmt.Errorf("Error selecting ergSplits %s", err)
+	}
+
+	defer rows.Close()
+
+	ergSplits := make([]common.ErgSplit, 0)
+
+	for rows.Next() {
+		var ergSplit common.ErgSplit
+		err := rows.Scan(&ergSplit.ErgSplit, &ergSplit.Seq, &ergSplit.Duration, &ergSplit.Distance, &ergSplit.HeartRate, &ergSplit.Power)
+
+		if err != nil {
+			fmt.Errorf("Error scanning ergSplit %s", err)
+		} else {
+			ergSplits = append(ergSplits, ergSplit)
+		}
+	}
+
+	return ergSplits
+}
+
+func queryWaterSplits(waterWorkoutId int) []common.WaterSplit {
+	rows, err := db.Query(context.Background(), "select watersplit, seq, duration, distance, heartrate, power, withflow, flowrate, waterworkout from waterSplit where waterworkout = ?", waterWorkoutId)
+
+	if err != nil {
+		fmt.Errorf("Error selecting waterSplits %s", err)
+	}
+
+	defer rows.Close()
+
+	waterSplits := make([]common.WaterSplit, 0)
+
+	for rows.Next() {
+		var waterSplit common.WaterSplit
+		err := rows.Scan(&waterSplit.WaterSplit, &waterSplit.Seq, &waterSplit.Duration, &waterSplit.Distance, &waterSplit.HeartRate, &waterSplit.Power, &waterSplit.WithFlow, &waterSplit.FlowRate)
+
+		if err != nil {
+			fmt.Errorf("Error scanning waterSplit %s", err)
+		} else {
+			waterSplits = append(waterSplits, waterSplit)
+		}
+	}
+
+	return waterSplits
 }
