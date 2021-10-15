@@ -10,6 +10,7 @@ public class WaterSplit {
     private long waterSplit;
 
     @ManyToOne
+    @JoinColumn(name = "waterWorkout")
     private WaterWorkout waterWorkout;
 
     private int seq;

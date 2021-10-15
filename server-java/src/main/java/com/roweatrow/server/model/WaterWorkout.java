@@ -12,5 +12,6 @@ public class WaterWorkout {
     private Instant date;
 
     @ManyToOne
+    @JoinColumn(name = "boat")
     private Boat boat;
 }

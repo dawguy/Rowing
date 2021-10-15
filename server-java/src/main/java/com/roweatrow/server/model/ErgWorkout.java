@@ -12,5 +12,6 @@ public class ErgWorkout {
     private Instant date;
 
     @ManyToOne
+    @JoinColumn(name = "athlete")
     private Athlete athlete;
 }
