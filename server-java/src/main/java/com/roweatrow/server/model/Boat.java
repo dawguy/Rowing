@@ -1,8 +1,13 @@
 package com.roweatrow.server.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 public class Boat {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,8 +44,4 @@ public class Boat {
     @ManyToOne
     @JoinColumn(name = "seat_1")
     private Athlete seat_1;
-
-    public Athlete getSeat_8() {
-        return seat_8;
-    }
 }
