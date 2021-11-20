@@ -11,9 +11,10 @@ import java.util.stream.IntStream;
 
 @Component
 public class PowerProfileMaximizer {
-    List<PowerProfileSegment> unitSegmentList = new ArrayList<>();
-    PowerProfileSegment[] maxDurationSegmentList;
+    private List<PowerProfileSegment> unitSegmentList = new ArrayList<>();
+    private PowerProfileSegment[] maxDurationSegmentList;
 
+    static int[] timesChecked;
 
     class PowerComparer implements Comparator<PowerProfileSegment> {
         public int compare(PowerProfileSegment a, PowerProfileSegment b){
@@ -37,6 +38,7 @@ public class PowerProfileMaximizer {
         this.unitSegmentList = unitSegmentList;
         int segmentCount = unitSegmentList.size();
         maxDurationSegmentList = new PowerProfileSegment[segmentCount+1];
+        timesChecked = new int[segmentCount+1];
 
         List<PowerProfileSegment> segmentList = unitSegmentList.stream()
                 .map(s -> new PowerProfileSegment(s.getPower(), s.getStartTime(), s.getDuration()))
@@ -88,41 +90,53 @@ public class PowerProfileMaximizer {
     }
 
     private void updateMaxDurations(PowerProfileSegment existingSegment, int startIndex, int endIndex){
-        PowerProfileSegment cur = new PowerProfileSegment(existingSegment.getPower(), existingSegment.getStartTime(), existingSegment.getDuration());
+        double curPower = existingSegment.getPower();
+        int curStartTime = existingSegment.getStartTime();
+        int curDuration = existingSegment.getDuration();
 
         // We're joining right
         if(existingSegment.getStartTime() == startIndex){
             for(int j = startIndex + existingSegment.getDuration(); j < endIndex; j++){
                 PowerProfileSegment unitSegment = unitSegmentList.get(j);
 
-                double updatedPower = cur.calculatePowerWithAddedSegment(unitSegment);
-                int minStartTime = Math.min(cur.getStartTime(), unitSegment.getStartTime());
-                int maxEndTime = Math.max(cur.getEndTime(), unitSegment.getEndTime());
+                double updatedPower = unitSegment.calculatePowerWithAddedSegment(curPower, curDuration);
+                int minStartTime = Math.min(curStartTime, unitSegment.getStartTime());
+                int maxEndTime = Math.max(curStartTime + curDuration, unitSegment.getEndTime());
                 int totalDuration = maxEndTime - minStartTime;
                 int durationIndex = totalDuration;
 
-                cur = new PowerProfileSegment(updatedPower, minStartTime, totalDuration);
+                curPower = updatedPower;
+                curStartTime = minStartTime;
+                curDuration = totalDuration;
 
+                timesChecked[durationIndex]++;
                 if(maxDurationSegmentList[durationIndex] == null || maxDurationSegmentList[durationIndex].getPower() < updatedPower){
-                    maxDurationSegmentList[durationIndex] = cur;
+                    maxDurationSegmentList[durationIndex] = new PowerProfileSegment(curPower, curStartTime, curDuration);
                 }
             }
         } else {
             for(int j = endIndex - 1; j >= startIndex; j--){
                 PowerProfileSegment unitSegment = unitSegmentList.get(j);
 
-                double updatedPower = cur.calculatePowerWithAddedSegment(unitSegment);
-                int minStartTime = Math.min(cur.getStartTime(), unitSegment.getStartTime());
-                int maxEndTime = Math.max(cur.getEndTime(), unitSegment.getEndTime());
+                double updatedPower = unitSegment.calculatePowerWithAddedSegment(curPower, curDuration);
+                int minStartTime = Math.min(curStartTime, unitSegment.getStartTime());
+                int maxEndTime = Math.max(curStartTime + curDuration, unitSegment.getEndTime());
                 int totalDuration = maxEndTime - minStartTime;
                 int durationIndex = totalDuration;
 
-                cur = new PowerProfileSegment(updatedPower, minStartTime, totalDuration);
+                curPower = updatedPower;
+                curStartTime = minStartTime;
+                curDuration = totalDuration;
 
+                timesChecked[durationIndex]++;
                 if(maxDurationSegmentList[durationIndex] == null || maxDurationSegmentList[durationIndex].getPower() < updatedPower){
-                    maxDurationSegmentList[durationIndex] = cur;
+                    maxDurationSegmentList[durationIndex] = new PowerProfileSegment(curPower, curStartTime, curDuration);
                 }
             }
         }
+    }
+
+    public static void printTimesChecked(){
+        System.out.println(timesChecked.toString());
     }
 }

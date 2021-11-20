@@ -131,6 +131,7 @@ class PowerProfileMaximizerTest extends Specification {
         var unitSegments = getHugeList()
         when: "calculateBestPower is called"
         var result = powerProfileMaximizer.calculateBestPower(unitSegments)
+        PowerProfileMaximizer.printTimesChecked()
         then:
         0.1 > 400 - result.get(0).getPower()
         20000 == result.get(0).getStartTime()

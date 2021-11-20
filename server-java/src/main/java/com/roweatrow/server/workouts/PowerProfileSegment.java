@@ -87,6 +87,15 @@ public class PowerProfileSegment {
         return newAvgPower;
     }
 
+    public double calculatePowerWithAddedSegment(double power, int duration){
+        int newDuration = this.getDuration() + duration;
+        double newAvgPower = (
+                (this.getDuration() * this.getPower()) + (duration * power)
+        ) / newDuration;
+
+        return newAvgPower;
+    }
+
     public boolean joinLeft(PowerProfileSegment leftSegment, PowerProfileSegment rightSegment){
         // may need to throw an runtime exception if left and right are both null. For now assuming
         // only 1 is null is good enough for the normal flow.

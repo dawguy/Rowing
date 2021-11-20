@@ -85,7 +85,7 @@ class PowerProfileSegmentTest extends Specification {
         def result = powerProfileSegment.joinWith(lowerPowerProfileSegment, higherPowerProfileSegment);
         then:
         30 == result.getDuration()
-        233 == result.getPower()
+        233.33333333333334 == result.getPower()
         5 == result.getStartTime()
     }
 }
