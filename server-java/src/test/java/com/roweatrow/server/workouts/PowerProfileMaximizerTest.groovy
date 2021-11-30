@@ -86,21 +86,6 @@ class PowerProfileMaximizerTest extends Specification {
         return list
     }
 
-
-    def "Maximum segment is found"(){
-        given: "A list of power profile segments"
-        var unitSegments = getUnitSegments()
-        var twoHumps = getTwoHumps()
-        when: "getMaxPowerSegment is called"
-        var unitSegmentResult = powerProfileMaximizer.getMaxPowerSegment(unitSegments)
-        var twoHumpsResult = powerProfileMaximizer.getMaxPowerSegment(twoHumps)
-        var emptyResult = powerProfileMaximizer.getMaxPowerSegment([])
-        then:
-        1 == unitSegmentResult
-        4 == twoHumpsResult
-        -1 == emptyResult
-    }
-
     def "Unit Segments Maximums Can Be Calculated"(){
         given: "A list of unit profile segments"
         var unitSegments = getUnitSegments()

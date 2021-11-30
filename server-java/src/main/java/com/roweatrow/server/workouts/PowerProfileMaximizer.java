@@ -45,14 +45,14 @@ public class PowerProfileMaximizer {
         }
 
         List<PowerProfileSegment> segmentList = unitSegmentList.stream()
-                .map(s -> new PowerProfileSegment(s.getPower(), s.getStartTime(), s.getDuration()))
+                .map(s -> new PowerProfileSegment(s.getPowerSum(), s.getStartTime(), s.getDuration()))
                 .collect(Collectors.toList());
 
         PowerProfileOrderedSet powerProfileOrderedSet = new PowerProfileOrderedSet();
         powerProfileOrderedSet.addAll(segmentList);
 
         PowerProfileSegment maxPowerProfileSegment = powerProfileOrderedSet.getMaxPower();
-        maxDurationSegmentList[1] = new PowerProfileSegment(maxPowerProfileSegment.getPower(), maxPowerProfileSegment.getStartTime(), maxPowerProfileSegment.getDuration());
+        maxDurationSegmentList[1] = new PowerProfileSegment(maxPowerProfileSegment.getPowerSum(), maxPowerProfileSegment.getStartTime(), maxPowerProfileSegment.getDuration());
 
         while(powerProfileOrderedSet.size() > 1) {
             PowerProfileSegment powerProfileSegment = powerProfileOrderedSet.getMaxPower();
@@ -72,7 +72,7 @@ public class PowerProfileMaximizer {
     }
 
     private void updateMaxDurations(PowerProfileSegment existingSegment, PowerProfileSegment neighborSegment){
-        double curPower = existingSegment.getPower();
+        long curPowerSum = existingSegment.getPowerSum();
         int curStartTime = existingSegment.getStartTime();
         int curDuration = existingSegment.getDuration();
 
@@ -84,19 +84,21 @@ public class PowerProfileMaximizer {
             for(int j = start; j < end; j++){
                 PowerProfileSegment unitSegment = unitSegmentList.get(j);
 
-                double updatedPower = unitSegment.calculatePowerWithAddedSegment(curPower, curDuration);
+                long updatedPowerSum = unitSegment.calculatePowerSumWithAddedSegment(curPowerSum);
                 int minStartTime = Math.min(curStartTime, unitSegment.getStartTime());
                 int maxEndTime = Math.max(curStartTime + curDuration, unitSegment.getEndTime());
                 int totalDuration = maxEndTime - minStartTime;
                 int durationIndex = totalDuration;
 
-                curPower = updatedPower;
+                curPowerSum = updatedPowerSum;
                 curStartTime = minStartTime;
                 curDuration = totalDuration;
 
+                double averagePower = curPowerSum / (double)curDuration;
+
                 timesChecked[durationIndex]++;
-                if(maxDurationSegmentList[durationIndex] == null || maxDurationSegmentList[durationIndex].getPower() < updatedPower){
-                    maxDurationSegmentList[durationIndex] = new PowerProfileSegment(curPower, curStartTime, curDuration);
+                if(maxDurationSegmentList[durationIndex] == null || maxDurationSegmentList[durationIndex].getPower() < averagePower){
+                    maxDurationSegmentList[durationIndex] = new PowerProfileSegment(curPowerSum, curStartTime, curDuration);
                 }
             }
         } else {
@@ -106,19 +108,20 @@ public class PowerProfileMaximizer {
             for(int j = start; j >= end; j--){
                 PowerProfileSegment unitSegment = unitSegmentList.get(j);
 
-                double updatedPower = unitSegment.calculatePowerWithAddedSegment(curPower, curDuration);
+                long updatedPowerSum = unitSegment.calculatePowerSumWithAddedSegment(curPowerSum);
                 int minStartTime = Math.min(curStartTime, unitSegment.getStartTime());
                 int maxEndTime = Math.max(curStartTime + curDuration, unitSegment.getEndTime());
                 int totalDuration = maxEndTime - minStartTime;
                 int durationIndex = totalDuration;
 
-                curPower = updatedPower;
+                curPowerSum = updatedPowerSum;
                 curStartTime = minStartTime;
                 curDuration = totalDuration;
+                double averagePower = curPowerSum / (double)curDuration;
 
                 timesChecked[durationIndex]++;
-                if(maxDurationSegmentList[durationIndex] == null || maxDurationSegmentList[durationIndex].getPower() < updatedPower){
-                    maxDurationSegmentList[durationIndex] = new PowerProfileSegment(curPower, curStartTime, curDuration);
+                if(maxDurationSegmentList[durationIndex] == null || maxDurationSegmentList[durationIndex].getPower() < averagePower){
+                    maxDurationSegmentList[durationIndex] = new PowerProfileSegment(curPowerSum, curStartTime, curDuration);
                 }
             }
         }

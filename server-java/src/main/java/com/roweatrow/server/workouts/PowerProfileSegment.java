@@ -8,15 +8,19 @@ import java.util.List;
 
 @Getter
 public class PowerProfileSegment {
-    private double power;
+    private long powerSum;
     private int startTime;
     private int duration;
     private int index = 0;
 
-    public PowerProfileSegment(double power, int startTime, int duration){
-        this.power = power;
+    public PowerProfileSegment(long powerSum, int startTime, int duration){
+        this.powerSum = powerSum;
         this.startTime = startTime;
         this.duration = duration;
+    }
+
+    public double getPower(){
+        return powerSum / (double)duration;
     }
 
     public int compareStartTimeTo(PowerProfileSegment other){
@@ -58,9 +62,9 @@ public class PowerProfileSegment {
     public PowerProfileSegment join(PowerProfileSegment other){
         int newStartTime = Math.min(this.getStartTime(), other.getStartTime());
         int newDuration = this.getDuration() + other.getDuration();
-        double newAvgPower = calculatePowerWithAddedSegment(other);
+        long newPowerSum = calculatePowerSumWithAddedSegment(other.getPowerSum());
 
-        return new PowerProfileSegment(newAvgPower, newStartTime, newDuration);
+        return new PowerProfileSegment(newPowerSum, newStartTime, newDuration);
     }
 
     // Higher average (this.power) can be used for joining. But in order to get second by second power averages,
@@ -87,13 +91,12 @@ public class PowerProfileSegment {
         return newAvgPower;
     }
 
-    public double calculatePowerWithAddedSegment(double power, int duration){
-        int newDuration = this.getDuration() + duration;
-        double newAvgPower = (
-                (this.getDuration() * this.getPower()) + (duration * power)
-        ) / newDuration;
+    public long calculatePowerSumWithAddedSegment(long powerSum){
+        return this.getPowerSum() + powerSum;
+    }
 
-        return newAvgPower;
+    public double calculatePowerWithAddedSegment(long powerSum, int duration){
+        return (double)(this.getPowerSum() + powerSum) / (this.getDuration() + duration);
     }
 
     public boolean joinLeft(PowerProfileSegment leftSegment, PowerProfileSegment rightSegment){
