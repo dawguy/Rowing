@@ -67,6 +67,26 @@ class PowerProfileMaximizerTest extends Specification {
         return list
     }
 
+    private List<PowerProfileSegment> getHugerList(){
+        List<PowerProfileSegment> list = new ArrayList<>();
+
+        for(int i = 0; i < 100000; i++){
+            list.add(new PowerProfileSegment(300, i, 1));
+        }
+        for(int i = 100000; i < 200000; i++){
+            list.add(new PowerProfileSegment(0, i, 1));
+        }
+        for(int i = 200000; i < 300000; i++){
+            list.add(new PowerProfileSegment(400, i, 1));
+        }
+        for(int i = 300000; i < 400000; i++){
+            list.add(new PowerProfileSegment(100, i, 1));
+        }
+
+        return list
+    }
+
+
     def "Maximum segment is found"(){
         given: "A list of power profile segments"
         var unitSegments = getUnitSegments()
@@ -86,6 +106,7 @@ class PowerProfileMaximizerTest extends Specification {
         var unitSegments = getUnitSegments()
         when: "calculateBestPower is called"
         var result = powerProfileMaximizer.calculateBestPower(unitSegments)
+        PowerProfileMaximizer.printTimesChecked()
         then:
         300 == result.get(0).getPower()
         1 == result.get(0).getStartTime()
@@ -105,7 +126,6 @@ class PowerProfileMaximizerTest extends Specification {
         then:
         300 == result.get(0).getPower()
         4 == result.get(0).getStartTime()
-
     }
 
     def "Large List Segment Maximums Can Be Calculated"(){
@@ -113,16 +133,17 @@ class PowerProfileMaximizerTest extends Specification {
         var unitSegments = getLargeList()
         when: "calculateBestPower is called"
         var result = powerProfileMaximizer.calculateBestPower(unitSegments)
+        PowerProfileMaximizer.printTimesChecked()
         then:
-        0.1 > 400 - result.get(0).getPower()
+        0.1 > Math.abs(400 - result.get(0).getPower())
         2000 == result.get(0).getStartTime()
-        0.1 > 400 - result.get(999).getPower()
+        0.1 > Math.abs(400 - result.get(999).getPower())
         2000 == result.get(999).getStartTime()
-        0.1 > 250 - result.get(1999).getPower()
+        0.1 > Math.abs(250 - result.get(1999).getPower())
         2000 == result.get(1999).getStartTime()
-        0.1 > 166.6666666666667 - result.get(2999).getPower()
-        1000 == result.get(2999).getStartTime()
-        0.1 > 175 - result.get(3999).getPower()
+        0.1 > Math.abs(233.33333333 - result.get(2999).getPower())
+        0 == result.get(2999).getStartTime()
+        0.1 > Math.abs(200 - result.get(3999).getPower())
         0 == result.get(3999).getStartTime()
     }
 
@@ -133,15 +154,34 @@ class PowerProfileMaximizerTest extends Specification {
         var result = powerProfileMaximizer.calculateBestPower(unitSegments)
         PowerProfileMaximizer.printTimesChecked()
         then:
-        0.1 > 400 - result.get(0).getPower()
+        0.1 > Math.abs(400 - result.get(0).getPower())
         20000 == result.get(0).getStartTime()
-        0.1 > 400 - result.get(9999).getPower()
+        0.1 > Math.abs(400 - result.get(9999).getPower())
         20000 == result.get(9999).getStartTime()
-        0.1 > 250 - result.get(19999).getPower()
+        0.1 > Math.abs(250 - result.get(19999).getPower())
         20000 == result.get(19999).getStartTime()
-        0.1 > 166.6666666666667 - result.get(29999).getPower()
-        10000 == result.get(29999).getStartTime()
-        0.1 > 175 - result.get(39999).getPower()
+        0.1 > Math.abs(233.33333333 - result.get(29999).getPower())
+        0 == result.get(29999).getStartTime()
+        0.1 > Math.abs(200 - result.get(39999).getPower())
         0 == result.get(39999).getStartTime()
+    }
+
+    def "Huger List Segment Maximums Can Be Calculated"(){
+        given: "A huger list of unit profile segments"
+        var unitSegments = getHugerList()
+        when: "calculateBestPower is called"
+        var result = powerProfileMaximizer.calculateBestPower(unitSegments)
+        PowerProfileMaximizer.printTimesChecked()
+        then:
+        0.1 > Math.abs(400 - result.get(0).getPower())
+        200000 == result.get(0).getStartTime()
+        0.1 > Math.abs(400 - result.get(99999).getPower())
+        200000 == result.get(99999).getStartTime()
+        0.1 > Math.abs(250 - result.get(199999).getPower())
+        200000 == result.get(199999).getStartTime()
+        0.1 > Math.abs(233.33333333 - result.get(299999).getPower())
+        0 == result.get(299999).getStartTime()
+        0.1 > Math.abs(200 - result.get(399999).getPower())
+        0 == result.get(399999).getStartTime()
     }
 }
