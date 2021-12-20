@@ -19,4 +19,17 @@ public interface BoatRepository extends CrudRepository<Boat, Long> {
             "LEFT JOIN FETCH boat.seat_7 seat_7 " +
             "LEFT JOIN FETCH boat.seat_8 seat_8 ")
     public List<Boat> retrieveAll();
+
+    @Query("SELECT boat FROM Boat boat " +
+            "LEFT JOIN FETCH boat.seat_1 seat_1 " +
+            "LEFT JOIN FETCH boat.seat_2 seat_2 " +
+            "LEFT JOIN FETCH boat.seat_3 seat_3 " +
+            "LEFT JOIN FETCH boat.seat_4 seat_4 " +
+            "LEFT JOIN FETCH boat.seat_5 seat_5 " +
+            "LEFT JOIN FETCH boat.seat_6 seat_6 " +
+            "LEFT JOIN FETCH boat.seat_7 seat_7 " +
+            "LEFT JOIN FETCH boat.seat_8 seat_8 " +
+            "WHERE ?1 IN (seat_1, seat_2, seat_3, seat_4, seat_5, seat_6, seat_7, seat_8)"
+    )
+    public List<Boat> retrieveAllByAthleteId(long athleteId);
 }

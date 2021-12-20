@@ -4,6 +4,7 @@ import com.roweatrow.server.model.Athlete;
 import com.roweatrow.server.model.Boat;
 import com.roweatrow.server.respository.AthleteRepository;
 import com.roweatrow.server.respository.BoatRepository;
+import com.roweatrow.server.workouts.WorkoutService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -37,25 +38,34 @@ public class ServerApplication {
 //        };
 //    }
 
+//    @Bean
+//    public CommandLineRunner b(BoatRepository boatRepository){
+//        return (args) -> {
+//            log.info("Find all");
+//            for(Boat b : boatRepository.findAll()){
+//                log.info(b.toString());
+//            }
+//            log.info("Find David");
+//            log.info("{}", boatRepository.findById(1L));
+//            log.info("Find by name Test");
+//            for(Boat b : boatRepository.retrieveAll()){
+//                log.info("{}", b);
+//                log.info("{}", b.getCoxswain());
+//                log.info("{}", b.getSeat_1());
+//                log.info("{}", b.getSeat_8());
+//            }
+//        };
+//    }
+
     @Bean
-    public CommandLineRunner b(BoatRepository boatRepository){
+    public CommandLineRunner c(WorkoutService workoutService){
         return (args) -> {
             log.info("Find all");
-            for(Boat b : boatRepository.findAll()){
-                log.info(b.toString());
-            }
+            log.info("By athlete {}", workoutService.getWorkoutsByAthlete(1));
             log.info("Find David");
-            log.info("{}", boatRepository.findById(1L));
-            log.info("Find by name Test");
-            for(Boat b : boatRepository.retrieveAll()){
-                log.info("{}", b);
-                log.info("{}", b.getCoxswain());
-                log.info("{}", b.getSeat_1());
-                log.info("{}", b.getSeat_8());
-            }
+            log.info("{}", workoutService.getErgWorkoutsByAthlete(1));
+            log.info("{}", workoutService.getWaterWorkoutsByAthlete(1));
         };
     }
-
-
 
 }

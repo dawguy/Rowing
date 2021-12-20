@@ -22,7 +22,7 @@ public class ErgWorkout implements Workout{
     @OneToMany(mappedBy = "ergWorkout")
     private List<ErgSplit> ergSplits = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "athlete")
     private Athlete athlete;
 
