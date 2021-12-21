@@ -19,3 +19,6 @@
 -- Requires boat
 \i models/water_workout.sql
 \i models/water_split.sql
+
+-- Requires boat and athlete
+\i models/water_workout_athlete_split.sql

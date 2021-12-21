@@ -1,10 +1,11 @@
 package com.roweatrow.server;
 
-import com.roweatrow.server.model.Athlete;
-import com.roweatrow.server.model.Boat;
+import com.roweatrow.server.model.*;
 import com.roweatrow.server.respository.AthleteRepository;
 import com.roweatrow.server.respository.BoatRepository;
 import com.roweatrow.server.workouts.WorkoutService;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -12,6 +13,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 @RestController
@@ -64,7 +70,10 @@ public class ServerApplication {
             log.info("By athlete {}", workoutService.getWorkoutsByAthlete(1));
             log.info("Find David");
             log.info("{}", workoutService.getErgWorkoutsByAthlete(1));
-            log.info("{}", workoutService.getWaterWorkoutsByAthlete(1));
+            List<? extends Workout> waterWorkoutList = workoutService.getWaterWorkoutsByAthlete(1);
+            List<List<? extends Split>> waterSplitsList = waterWorkoutList.stream().map(Workout::getSplits).collect(Collectors.toList());
+            log.info("{}", waterSplitsList);
+            log.info("{}", waterSplitsList);
         };
     }
 

@@ -7,8 +7,6 @@ create table water_split
 	seq int not null,
 	duration timestamp,
 	distance int,
-	heart_rate int,
-	power int,
     with_flow bool,
     flow_rate int
 );

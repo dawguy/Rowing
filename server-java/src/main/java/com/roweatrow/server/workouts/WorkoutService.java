@@ -1,6 +1,7 @@
 package com.roweatrow.server.workouts;
 
 import com.roweatrow.server.model.Boat;
+import com.roweatrow.server.model.Split;
 import com.roweatrow.server.model.Workout;
 import com.roweatrow.server.respository.BoatRepository;
 import com.roweatrow.server.respository.ErgWorkoutRepository;
@@ -37,7 +38,9 @@ public class WorkoutService {
 
     public List<? extends Workout> getWaterWorkoutsByAthlete(long athleteId){
         List<Boat> boats = getBoatsByAthlete(athleteId);
-        return waterWorkoutRepository.findWaterWorkoutByBoatIn(boats);
+        List<? extends Workout> workouts = waterWorkoutRepository.findWaterWorkoutByBoatIn(boats);
+        List<List<? extends Split>> splits = workouts.stream().map(Workout::getSplits).collect(Collectors.toList());
+        return workouts;
     }
 
     public List<? extends Workout> getWaterWorkoutsByBoat(long boatId){

@@ -2,6 +2,7 @@ package com.roweatrow.server.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.time.Duration;
@@ -21,8 +22,6 @@ public class WaterSplit implements Split {
     private int seq;
     private Duration duration;
     private int distance;
-    private int heartRate;
-    private int power; // In watts
     private boolean withFlow;
     private boolean flowRate;
 }

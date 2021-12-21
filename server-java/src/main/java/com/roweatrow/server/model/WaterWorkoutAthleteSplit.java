@@ -2,6 +2,7 @@ package com.roweatrow.server.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.time.Duration;
@@ -9,17 +10,15 @@ import java.time.Duration;
 @Entity
 @Getter
 @Setter
-public class ErgSplit implements Split{
+public class WaterWorkoutAthleteSplit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long ergSplit;
+    private long waterWorkoutAthleteSplit;
 
     @ManyToOne
-    private ErgWorkout ergWorkout;
+    @JoinColumn(name = "waterSplit")
+    private WaterSplit waterSplit;
 
-    private int seq;
-    private Duration duration;
-    private int distance;
     private Integer heartRate;
     private Integer power; // In watts
 }

@@ -4,7 +4,11 @@ import java.time.Duration;
 
 public interface Split {
     public Duration getDuration();
-    public int getPower();
-    public int getHeartRate();
+    default public Integer getPower() {
+        return null;
+    }
+    default public Integer getHeartRate() {
+        return null;
+    }
     public int getDistance();
 }
