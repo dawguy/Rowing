@@ -14,7 +14,8 @@ public class ErgSplit implements Split{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long ergSplit;
 
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn(name = "ergWorkout")
     private ErgWorkout ergWorkout;
 
     private int seq;

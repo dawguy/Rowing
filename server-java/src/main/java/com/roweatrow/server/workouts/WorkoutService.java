@@ -8,6 +8,8 @@ import com.roweatrow.server.respository.ErgWorkoutRepository;
 import com.roweatrow.server.respository.WaterWorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,6 +38,7 @@ public class WorkoutService {
         return ergWorkoutRepository.findErgWorkoutsByAthleteAthlete(athleteId);
     }
 
+    @Transactional(propagation= Propagation.REQUIRED)
     public List<? extends Workout> getWaterWorkoutsByAthlete(long athleteId){
         List<Boat> boats = getBoatsByAthlete(athleteId);
         List<? extends Workout> workouts = waterWorkoutRepository.findWaterWorkoutByBoatIn(boats);
