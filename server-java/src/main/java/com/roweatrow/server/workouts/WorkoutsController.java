@@ -1,8 +1,8 @@
 package com.roweatrow.server.workouts;
 
-import com.roweatrow.server.model.ErgWorkout;
-import com.roweatrow.server.model.WaterWorkout;
-import com.roweatrow.server.model.Workout;
+import com.roweatrow.server.models.ErgWorkout;
+import com.roweatrow.server.models.WaterWorkout;
+import com.roweatrow.server.models.Workout;
 import com.roweatrow.server.respository.ErgWorkoutRepository;
 import com.roweatrow.server.respository.WaterWorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;

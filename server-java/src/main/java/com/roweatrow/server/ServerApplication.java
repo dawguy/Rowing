@@ -1,6 +1,6 @@
 package com.roweatrow.server;
 
-import com.roweatrow.server.model.*;
+import com.roweatrow.server.models.*;
 import com.roweatrow.server.respository.AthleteRepository;
 import com.roweatrow.server.respository.BoatRepository;
 import com.roweatrow.server.workouts.WorkoutService;

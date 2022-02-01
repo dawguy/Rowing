@@ -1,6 +1,5 @@
 package com.roweatrow.server.workouts;
 
-import com.roweatrow.server.model.Split;
 import lombok.Getter;
 
 import java.util.ArrayList;

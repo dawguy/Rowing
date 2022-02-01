@@ -1,6 +1,6 @@
 package com.roweatrow.server.workouts;
 
-import com.roweatrow.server.model.Split;
+import com.roweatrow.server.models.Split;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 

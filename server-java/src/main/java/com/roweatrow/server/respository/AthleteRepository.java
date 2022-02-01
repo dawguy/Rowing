@@ -1,6 +1,6 @@
 package com.roweatrow.server.respository;
 
-import com.roweatrow.server.model.Athlete;
+import com.roweatrow.server.models.Athlete;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

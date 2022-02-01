@@ -1,6 +1,7 @@
 package com.roweatrow.server.workouts;
 
-import com.roweatrow.server.model.Split;
+import com.roweatrow.server.models.Split;
+import com.roweatrow.server.models.Split;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -21,7 +22,7 @@ public class PowerProfileSegmenter {
         for(Split s : splits){
             Timestamp d = s.getDuration();
             long l = d.getSeconds();
-            int power = s.getPower();
+            long power = s.getPower();
 
             for(int i = 0; i < l; i++){
                 PowerProfileSegment p = new PowerProfileSegment(power, currentStartTime, 1);

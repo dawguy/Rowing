@@ -1,10 +1,12 @@
 package com.roweatrow.server.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "water_workout")
-public class WaterWorkout {
+public class WaterWorkout implements Workout{
     @Id
     @Column(name = "water_workout")
     private Long waterWorkout;
@@ -37,5 +39,9 @@ public class WaterWorkout {
 
     public void setBoat(Long boat) {
         this.boat = boat;
+    }
+
+    public List<? extends Split> getSplits(){
+        return new ArrayList<>();
     }
 }

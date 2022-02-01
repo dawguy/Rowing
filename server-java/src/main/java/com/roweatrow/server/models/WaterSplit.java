@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "water_split")
-public class WaterSplit {
+public class WaterSplit implements Split {
     @Id
     @Column(name = "water_split")
     private Long waterSplit;

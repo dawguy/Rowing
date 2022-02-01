@@ -4,11 +4,11 @@ import java.sql.Timestamp;
 
 public interface Split {
     public Timestamp getDuration();
-    default public Integer getPower() {
+    default public Long getPower() {
         return null;
     }
-    default public Integer getHeartRate() {
+    default public Long getHeartRate() {
         return null;
     }
-    public int getDistance();
+    public Long getDistance();
 }

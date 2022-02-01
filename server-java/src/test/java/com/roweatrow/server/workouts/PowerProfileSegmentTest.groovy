@@ -1,7 +1,7 @@
 package com.roweatrow.server.workouts
 
-import com.roweatrow.server.model.ErgSplit
-import com.roweatrow.server.model.Split
+import com.roweatrow.server.models.ErgSplit
+import com.roweatrow.server.models.Split
 import spock.lang.Specification
 import spock.lang.Subject
 

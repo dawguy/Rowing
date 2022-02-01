@@ -1,7 +1,7 @@
 package com.roweatrow.server.respository;
 
-import com.roweatrow.server.model.Boat;
-import com.roweatrow.server.model.WaterWorkout;
+import com.roweatrow.server.models.Boat;
+import com.roweatrow.server.models.WaterWorkout;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

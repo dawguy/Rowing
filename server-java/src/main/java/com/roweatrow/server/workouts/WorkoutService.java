@@ -1,8 +1,8 @@
 package com.roweatrow.server.workouts;
 
-import com.roweatrow.server.model.Boat;
-import com.roweatrow.server.model.Split;
-import com.roweatrow.server.model.Workout;
+import com.roweatrow.server.models.Boat;
+import com.roweatrow.server.models.Split;
+import com.roweatrow.server.models.Workout;
 import com.roweatrow.server.respository.BoatRepository;
 import com.roweatrow.server.respository.ErgWorkoutRepository;
 import com.roweatrow.server.respository.WaterWorkoutRepository;
@@ -35,7 +35,7 @@ public class WorkoutService {
     }
 
     public List<? extends Workout> getErgWorkoutsByAthlete(long athleteId){
-        return ergWorkoutRepository.findErgWorkoutsByAthleteAthlete(athleteId);
+        return ergWorkoutRepository.findErgWorkoutsByAthlete(athleteId);
     }
 
     @Transactional(propagation= Propagation.REQUIRED)
@@ -53,6 +53,4 @@ public class WorkoutService {
     public List<Boat> getBoatsByAthlete(long athleteId){
         return boatRepository.retrieveAllByAthleteId(athleteId);
     }
-
-
 }

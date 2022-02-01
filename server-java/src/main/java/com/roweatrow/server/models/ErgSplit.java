@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "erg_split")
-public class ErgSplit {
+public class ErgSplit implements Split {
     @Id
     @Column(name = "erg_split")
     private Long ergSplit;

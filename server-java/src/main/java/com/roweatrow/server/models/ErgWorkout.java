@@ -1,10 +1,12 @@
 package com.roweatrow.server.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "erg_workout")
-public class ErgWorkout {
+public class ErgWorkout implements Workout {
     @Id
     @Column(name = "erg_workout")
     private Long ergWorkout;
@@ -37,5 +39,9 @@ public class ErgWorkout {
 
     public void setAthlete(Long athlete) {
         this.athlete = athlete;
+    }
+
+    public List<? extends Split> getSplits(){
+        return new ArrayList<>();
     }
 }
