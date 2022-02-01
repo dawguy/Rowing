@@ -3,6 +3,7 @@ package com.roweatrow.server.workouts;
 import com.roweatrow.server.model.Split;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class PowerProfileSegmenter {
         int currentStartTime = 0;
 
         for(Split s : splits){
-            Duration d = s.getDuration();
+            Timestamp d = s.getDuration();
             long l = d.getSeconds();
             int power = s.getPower();
 

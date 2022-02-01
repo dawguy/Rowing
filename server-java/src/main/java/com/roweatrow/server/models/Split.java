@@ -1,7 +1,6 @@
-package com.roweatrow.server.model;
+package com.roweatrow.server.models;
 
 import java.sql.Timestamp;
-import java.time.Duration;
 
 public interface Split {
     public Timestamp getDuration();
