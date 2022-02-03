@@ -2,6 +2,13 @@ package com.roweatrow.server.models;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "water_split")
@@ -22,17 +29,14 @@ public class WaterSplit implements Split {
     @Column(name = "distance")
     private Long distance;
 
-    @Column(name = "heart_rate")
-    private Long heartRate;
-
-    @Column(name = "power")
-    private Long power;
-
     @Column(name = "with_flow")
     private Boolean withFlow;
 
     @Column(name = "flow_rate")
     private Long flowRate;
+
+    @OneToMany(mappedBy = "waterSplit")
+    private List<WaterWorkoutAthleteSplit> waterWorkoutAthleteSplit = new ArrayList<>();
 
     public Long getWaterSplit() {
         return this.waterSplit;
@@ -74,22 +78,6 @@ public class WaterSplit implements Split {
         this.distance = distance;
     }
 
-    public Long getHeartRate() {
-        return this.heartRate;
-    }
-
-    public void setHeartRate(Long heartRate) {
-        this.heartRate = heartRate;
-    }
-
-    public Long getPower() {
-        return this.power;
-    }
-
-    public void setPower(Long power) {
-        this.power = power;
-    }
-
     public Boolean getWithFlow() {
         return this.withFlow;
     }
@@ -104,5 +92,25 @@ public class WaterSplit implements Split {
 
     public void setFlowRate(Long flowRate) {
         this.flowRate = flowRate;
+    }
+
+    @Override
+    public Long getHeartRate() {
+        return (long) this.waterWorkoutAthleteSplit.stream()
+                    .map(WaterWorkoutAthleteSplit::getHeartRate)
+                    .filter(Objects::nonNull)  // Just ignore missing data. Don't treat as 0.
+                    .mapToDouble(d -> (double)d)
+                    .average()
+                    .orElse(0.0);
+    }
+
+    @Override
+    public Long getPower() {
+        return (long) this.waterWorkoutAthleteSplit.stream()
+                .map(WaterWorkoutAthleteSplit::getPower)
+                .filter(Objects::nonNull) // Just ignore missing data. Don't treat as 0.
+                .mapToDouble(d -> (double)d)
+                .average()
+                .orElse(0.0);
     }
 }
