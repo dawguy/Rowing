@@ -1,11 +1,15 @@
 package com.roweatrow.server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "water_workout_athlete_split")
 public class WaterWorkoutAthleteSplit {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     @Column(name = "water_workout_athlete_split")
     private Long waterWorkoutAthleteSplit;
 

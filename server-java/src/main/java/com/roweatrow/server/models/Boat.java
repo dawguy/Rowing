@@ -1,11 +1,15 @@
 package com.roweatrow.server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "boat")
 public class Boat {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     @Column(name = "boat")
     private Long boat;
 

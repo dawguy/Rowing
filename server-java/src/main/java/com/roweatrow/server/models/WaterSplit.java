@@ -1,5 +1,7 @@
 package com.roweatrow.server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.stream.Stream;
 @Table(name = "water_split")
 public class WaterSplit implements Split {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     @Column(name = "water_split")
     private Long waterSplit;
 

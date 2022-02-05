@@ -1,4 +1,4 @@
-package com.roweatrow.server.athletes;
+package com.roweatrow.server.genericCRUD;
 
 import com.roweatrow.server.models.Athlete;
 import com.roweatrow.server.respository.AthleteRepository;
@@ -10,14 +10,11 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/athletes")
 public class AthletesController {
-    private final AthleteService athleteService;
     private final AthleteRepository athleteRepository;
 
     public AthletesController(
-            AthleteService athleteService,
             AthleteRepository athleteRepository
     ) {
-        this.athleteService = athleteService;
         this.athleteRepository = athleteRepository;
     }
 

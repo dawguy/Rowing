@@ -1,11 +1,15 @@
 package com.roweatrow.server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "shell")
 public class Shell {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     @Column(name = "shell")
     private Long shell;
 

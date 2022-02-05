@@ -1,5 +1,7 @@
 package com.roweatrow.server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.List;
 @Table(name = "erg_workout")
 public class ErgWorkout implements Workout {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     @Column(name = "erg_workout")
     private Long ergWorkout;
 

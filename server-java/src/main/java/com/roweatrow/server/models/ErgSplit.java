@@ -1,5 +1,7 @@
 package com.roweatrow.server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -7,6 +9,8 @@ import java.sql.Timestamp;
 @Table(name = "erg_split")
 public class ErgSplit implements Split {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     @Column(name = "erg_split")
     private Long ergSplit;
 
