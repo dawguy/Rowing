@@ -41,12 +41,11 @@ public class WorkoutService {
     @Transactional(propagation= Propagation.REQUIRED)
     public List<? extends Workout> getWaterWorkoutsByAthlete(long athleteId){
         List<Boat> boats = getBoatsByAthlete(athleteId);
-        List<? extends Workout> workouts = waterWorkoutRepository.findWaterWorkoutByBoatIn(boats);
-        List<List<? extends Split>> splits = workouts.stream().map(Workout::getSplits).collect(Collectors.toList());
-        return workouts;
+        List<Long> boatsL = boats.stream().map(Boat::getBoat).collect(Collectors.toList());
+        return waterWorkoutRepository.findWaterWorkoutsByBoatIn(boatsL);
     }
 
-    public List<? extends Workout> getWaterWorkoutsByBoat(long boatId){
+    public List<? extends Workout> getWorkoutsByBoat(long boatId){
         return waterWorkoutRepository.findWaterWorkoutByBoat(boatId);
     }
 

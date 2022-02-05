@@ -1,5 +1,6 @@
 package com.roweatrow.server.workouts;
 
+import com.roweatrow.server.models.Athlete;
 import com.roweatrow.server.models.ErgWorkout;
 import com.roweatrow.server.models.WaterWorkout;
 import com.roweatrow.server.models.Workout;
@@ -45,5 +46,8 @@ public class WorkoutsController {
     public @ResponseBody List<? extends Workout> getAtheleteWorkouts(@PathVariable Long athleteId){
         return workoutService.getWorkoutsByAthlete(athleteId);
     }
-
+    @GetMapping(value = "/boat/{boatId}")
+    public @ResponseBody List<? extends Workout> getBoatWorkouts(@PathVariable Long boatId){
+        return workoutService.getWorkoutsByBoat(boatId);
+    }
 }

@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface WaterWorkoutRepository extends CrudRepository<WaterWorkout, Long> {
-    public List<WaterWorkout> findWaterWorkoutByBoatIn(Collection<Boat> boats);
+    public List<WaterWorkout>  findWaterWorkoutsByBoatIn(Collection<Long> boats);
     public List<WaterWorkout> findWaterWorkoutByBoat(long boat);
 }
