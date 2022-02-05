@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "4da4157a-579d-4cbb-85b3-9998ab5bd40b",
+		"name": "Rowing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Athletes",
+			"item": [
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "Athlete",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/athletes/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"athletes",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CREATE",
+					"item": [
+						{
+							"name": "Create Athlete",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment')",
+											"pm.globals.set(\"birthday\", moment().format(\"YYYY-MM-DD\"))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"test{{$guid}}\",\n    \"birthday\": \"{{birthday}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/athletes",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"athletes"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Workouts",
+			"item": [
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "Water Workout",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/workouts/water/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workouts",
+										"water",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Erg Workout",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/workouts/erg/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workouts",
+										"erg",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Athlete Workout",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/workouts/athlete/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workouts",
+										"athlete",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Boat Workout",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/workouts/boat/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workouts",
+										"boat",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CREATE",
+					"item": []
+				}
+			]
+		}
+	]
+}
