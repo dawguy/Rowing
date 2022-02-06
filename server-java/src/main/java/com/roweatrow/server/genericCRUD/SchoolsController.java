@@ -10,30 +10,28 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/schools")
 public class SchoolsController {
-private final SchoolRepository schoolRepository;
+  private final SchoolRepository schoolRepository;
 
-public CRUDController(
-        SchoolRepository schoolRepository
-        ){
-        this.schoolRepository=schoolRepository;
-        }
+  public CRUDController(SchoolRepository schoolRepository) {
+    this.schoolRepository = schoolRepository;
+  }
 
-@GetMapping(value = "/{schoolId}")
-public @ResponseBody School getSchool(@PathVariable Long schoolId){
-        Optional<School> school=schoolRepository.findById(schoolId);
-        return school.orElse(null);
-        }
+  @GetMapping(value = "/{schoolId}")
+  public @ResponseBody School getSchool(@PathVariable Long schoolId) {
+    Optional<School> school = schoolRepository.findById(schoolId);
+    return school.orElse(null);
+  }
 
-@PostMapping(value = "")
-public @ResponseBody School createSchool(@RequestBody School requestBody){
-        if(requestBody.getSchool()!=null){
-        Optional<School> school=schoolRepository.findById(requestBody.getSchool());
+  @PostMapping(value = "")
+  public @ResponseBody School createSchool(@RequestBody School requestBody) {
+    if (requestBody.getSchool() != null) {
+      Optional<School> school = schoolRepository.findById(requestBody.getSchool());
 
-        if(school.isPresent()){
+      if (school.isPresent()) {
         return school.get();
-        }
-        }
+      }
+    }
 
-        return schoolRepository.save(requestBody);
-        }
-        }
+    return schoolRepository.save(requestBody);
+  }
+}

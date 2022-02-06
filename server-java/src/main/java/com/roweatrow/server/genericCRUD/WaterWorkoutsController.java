@@ -10,30 +10,29 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/waterWorkouts")
 public class WaterWorkoutsController {
-private final WaterWorkoutRepository waterWorkoutRepository;
+  private final WaterWorkoutRepository waterWorkoutRepository;
 
-public CRUDController(
-        WaterWorkoutRepository waterWorkoutRepository
-        ){
-        this.waterWorkoutRepository=waterWorkoutRepository;
-        }
+  public CRUDController(WaterWorkoutRepository waterWorkoutRepository) {
+    this.waterWorkoutRepository = waterWorkoutRepository;
+  }
 
-@GetMapping(value = "/{waterWorkoutId}")
-public @ResponseBody WaterWorkout getWaterWorkout(@PathVariable Long waterWorkoutId){
-        Optional<WaterWorkout> waterWorkout=waterWorkoutRepository.findById(waterWorkoutId);
-        return waterWorkout.orElse(null);
-        }
+  @GetMapping(value = "/{waterWorkoutId}")
+  public @ResponseBody WaterWorkout getWaterWorkout(@PathVariable Long waterWorkoutId) {
+    Optional<WaterWorkout> waterWorkout = waterWorkoutRepository.findById(waterWorkoutId);
+    return waterWorkout.orElse(null);
+  }
 
-@PostMapping(value = "")
-public @ResponseBody WaterWorkout createWaterWorkout(@RequestBody WaterWorkout requestBody){
-        if(requestBody.getWaterWorkout()!=null){
-        Optional<WaterWorkout> waterWorkout=waterWorkoutRepository.findById(requestBody.getWaterWorkout());
+  @PostMapping(value = "")
+  public @ResponseBody WaterWorkout createWaterWorkout(@RequestBody WaterWorkout requestBody) {
+    if (requestBody.getWaterWorkout() != null) {
+      Optional<WaterWorkout> waterWorkout =
+          waterWorkoutRepository.findById(requestBody.getWaterWorkout());
 
-        if(waterWorkout.isPresent()){
+      if (waterWorkout.isPresent()) {
         return waterWorkout.get();
-        }
-        }
+      }
+    }
 
-        return waterWorkoutRepository.save(requestBody);
-        }
-        }
+    return waterWorkoutRepository.save(requestBody);
+  }
+}

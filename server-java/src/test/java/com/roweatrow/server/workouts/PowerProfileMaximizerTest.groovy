@@ -30,57 +30,57 @@ class PowerProfileMaximizerTest extends Specification {
     }
 
     private List<PowerProfileSegment> getLargeList(){
-        List<PowerProfileSegment> list = new ArrayList<>();
+        List<PowerProfileSegment> list = new ArrayList<>()
 
         for(int i = 0; i < 1000; i++){
-            list.add(new PowerProfileSegment(300, i, 1));
+            list.add(new PowerProfileSegment(300, i, 1))
         }
         for(int i = 1000; i < 2000; i++){
-            list.add(new PowerProfileSegment(0, i, 1));
+            list.add(new PowerProfileSegment(0, i, 1))
         }
         for(int i = 2000; i < 3000; i++){
-            list.add(new PowerProfileSegment(400, i, 1));
+            list.add(new PowerProfileSegment(400, i, 1))
         }
         for(int i = 3000; i < 4000; i++){
-            list.add(new PowerProfileSegment(100, i, 1));
+            list.add(new PowerProfileSegment(100, i, 1))
         }
 
         return list
     }
 
     private List<PowerProfileSegment> getHugeList(){
-        List<PowerProfileSegment> list = new ArrayList<>();
+        List<PowerProfileSegment> list = new ArrayList<>()
 
         for(int i = 0; i < 10000; i++){
-            list.add(new PowerProfileSegment(300, i, 1));
+            list.add(new PowerProfileSegment(300, i, 1))
         }
         for(int i = 10000; i < 20000; i++){
-            list.add(new PowerProfileSegment(0, i, 1));
+            list.add(new PowerProfileSegment(0, i, 1))
         }
         for(int i = 20000; i < 30000; i++){
-            list.add(new PowerProfileSegment(400, i, 1));
+            list.add(new PowerProfileSegment(400, i, 1))
         }
         for(int i = 30000; i < 40000; i++){
-            list.add(new PowerProfileSegment(100, i, 1));
+            list.add(new PowerProfileSegment(100, i, 1))
         }
 
         return list
     }
 
     private List<PowerProfileSegment> getHugerList(){
-        List<PowerProfileSegment> list = new ArrayList<>();
+        List<PowerProfileSegment> list = new ArrayList<>()
 
         for(int i = 0; i < 100000; i++){
-            list.add(new PowerProfileSegment(300, i, 1));
+            list.add(new PowerProfileSegment(300, i, 1))
         }
         for(int i = 100000; i < 200000; i++){
-            list.add(new PowerProfileSegment(0, i, 1));
+            list.add(new PowerProfileSegment(0, i, 1))
         }
         for(int i = 200000; i < 300000; i++){
-            list.add(new PowerProfileSegment(400, i, 1));
+            list.add(new PowerProfileSegment(400, i, 1))
         }
         for(int i = 300000; i < 400000; i++){
-            list.add(new PowerProfileSegment(100, i, 1));
+            list.add(new PowerProfileSegment(100, i, 1))
         }
 
         return list

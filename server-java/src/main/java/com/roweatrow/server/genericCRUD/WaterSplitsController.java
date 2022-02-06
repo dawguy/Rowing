@@ -10,30 +10,28 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/waterSplits")
 public class WaterSplitsController {
-private final WaterSplitRepository waterSplitRepository;
+  private final WaterSplitRepository waterSplitRepository;
 
-public CRUDController(
-        WaterSplitRepository waterSplitRepository
-        ){
-        this.waterSplitRepository=waterSplitRepository;
-        }
+  public CRUDController(WaterSplitRepository waterSplitRepository) {
+    this.waterSplitRepository = waterSplitRepository;
+  }
 
-@GetMapping(value = "/{waterSplitId}")
-public @ResponseBody WaterSplit getWaterSplit(@PathVariable Long waterSplitId){
-        Optional<WaterSplit> waterSplit=waterSplitRepository.findById(waterSplitId);
-        return waterSplit.orElse(null);
-        }
+  @GetMapping(value = "/{waterSplitId}")
+  public @ResponseBody WaterSplit getWaterSplit(@PathVariable Long waterSplitId) {
+    Optional<WaterSplit> waterSplit = waterSplitRepository.findById(waterSplitId);
+    return waterSplit.orElse(null);
+  }
 
-@PostMapping(value = "")
-public @ResponseBody WaterSplit createWaterSplit(@RequestBody WaterSplit requestBody){
-        if(requestBody.getWaterSplit()!=null){
-        Optional<WaterSplit> waterSplit=waterSplitRepository.findById(requestBody.getWaterSplit());
+  @PostMapping(value = "")
+  public @ResponseBody WaterSplit createWaterSplit(@RequestBody WaterSplit requestBody) {
+    if (requestBody.getWaterSplit() != null) {
+      Optional<WaterSplit> waterSplit = waterSplitRepository.findById(requestBody.getWaterSplit());
 
-        if(waterSplit.isPresent()){
+      if (waterSplit.isPresent()) {
         return waterSplit.get();
-        }
-        }
+      }
+    }
 
-        return waterSplitRepository.save(requestBody);
-        }
-        }
+    return waterSplitRepository.save(requestBody);
+  }
+}

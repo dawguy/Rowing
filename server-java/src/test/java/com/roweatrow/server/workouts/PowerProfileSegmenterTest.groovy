@@ -8,13 +8,13 @@ import spock.lang.Subject
 import java.time.Duration
 
 class PowerProfileSegmenterTest extends Specification {
-    @Subject PowerProfileSegmenter powerProfileSegmenter = new PowerProfileSegmenter();
+    @Subject PowerProfileSegmenter powerProfileSegmenter = new PowerProfileSegmenter()
 
     def "Unit Power Profile Of Empty List Of Splits"(){
         given: "An empty list of splits"
         List<Split> splits = []
         when: "splitsToUnitPowerProfileSegments is called"
-        List<PowerProfileSegment> results = powerProfileSegmenter.splitsToUnitPowerProfileSegments(splits);
+        List<PowerProfileSegment> results = powerProfileSegmenter.splitsToUnitPowerProfileSegments(splits)
         then:
         0 == results.size()
     }
@@ -23,7 +23,7 @@ class PowerProfileSegmenterTest extends Specification {
         given: "An a split of power 100 and duration of 10 seconds"
         List<Split> splits = [new ErgSplit(duration: Duration.ofSeconds(60), power: 100)]
         when: "splitsToUnitPowerProfileSegments is called"
-        List<PowerProfileSegment> results = powerProfileSegmenter.splitsToUnitPowerProfileSegments(splits);
+        List<PowerProfileSegment> results = powerProfileSegmenter.splitsToUnitPowerProfileSegments(splits)
         then:
         60 == results.size()
         var firstSplit = results.first()
@@ -39,7 +39,7 @@ class PowerProfileSegmenterTest extends Specification {
         ]
 
         when: "splitsToUnitPowerProfileSegments is called"
-        List<PowerProfileSegment> results = powerProfileSegmenter.splitsToUnitPowerProfileSegments(splits);
+        List<PowerProfileSegment> results = powerProfileSegmenter.splitsToUnitPowerProfileSegments(splits)
         then:
         90 == results.size()
         var firstSplit = results.first()

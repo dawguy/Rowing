@@ -10,30 +10,28 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/shells")
 public class ShellsController {
-private final ShellRepository shellRepository;
+  private final ShellRepository shellRepository;
 
-public CRUDController(
-        ShellRepository shellRepository
-        ){
-        this.shellRepository=shellRepository;
-        }
+  public CRUDController(ShellRepository shellRepository) {
+    this.shellRepository = shellRepository;
+  }
 
-@GetMapping(value = "/{shellId}")
-public @ResponseBody Shell getShell(@PathVariable Long shellId){
-        Optional<Shell> shell=shellRepository.findById(shellId);
-        return shell.orElse(null);
-        }
+  @GetMapping(value = "/{shellId}")
+  public @ResponseBody Shell getShell(@PathVariable Long shellId) {
+    Optional<Shell> shell = shellRepository.findById(shellId);
+    return shell.orElse(null);
+  }
 
-@PostMapping(value = "")
-public @ResponseBody Shell createShell(@RequestBody Shell requestBody){
-        if(requestBody.getShell()!=null){
-        Optional<Shell> shell=shellRepository.findById(requestBody.getShell());
+  @PostMapping(value = "")
+  public @ResponseBody Shell createShell(@RequestBody Shell requestBody) {
+    if (requestBody.getShell() != null) {
+      Optional<Shell> shell = shellRepository.findById(requestBody.getShell());
 
-        if(shell.isPresent()){
+      if (shell.isPresent()) {
         return shell.get();
-        }
-        }
+      }
+    }
 
-        return shellRepository.save(requestBody);
-        }
-        }
+    return shellRepository.save(requestBody);
+  }
+}

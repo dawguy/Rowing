@@ -7,39 +7,39 @@ import javax.persistence.*;
 @Entity
 @Table(name = "athlete")
 public class Athlete {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @Column(name = "athlete")
-    private Long athlete;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @JsonIgnoreProperties(ignoreUnknown = true)
+  @Column(name = "athlete")
+  private Long athlete;
 
-    @Column(name = "name")
-    private String name;
+  @Column(name = "name")
+  private String name;
 
-    @Column(name = "birthday")
-    private java.sql.Date birthday;
+  @Column(name = "birthday")
+  private java.sql.Date birthday;
 
-    public Long getAthlete() {
-        return this.athlete;
-    }
+  public Long getAthlete() {
+    return this.athlete;
+  }
 
-    public void setAthlete(Long athlete) {
-        this.athlete = athlete;
-    }
+  public void setAthlete(Long athlete) {
+    this.athlete = athlete;
+  }
 
-    public String getName() {
-        return this.name;
-    }
+  public String getName() {
+    return this.name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public java.sql.Date getBirthday() {
-        return this.birthday;
-    }
+  public java.sql.Date getBirthday() {
+    return this.birthday;
+  }
 
-    public void setBirthday(java.sql.Date birthday) {
-        this.birthday = birthday;
-    }
+  public void setBirthday(java.sql.Date birthday) {
+    this.birthday = birthday;
+  }
 }

@@ -7,39 +7,39 @@ import javax.persistence.*;
 @Entity
 @Table(name = "shell")
 public class Shell {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @Column(name = "shell")
-    private Long shell;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @JsonIgnoreProperties(ignoreUnknown = true)
+  @Column(name = "shell")
+  private Long shell;
 
-    @Column(name = "name")
-    private String name;
+  @Column(name = "name")
+  private String name;
 
-    @Column(name = "school")
-    private Long school;
+  @Column(name = "school")
+  private Long school;
 
-    public Long getShell() {
-        return this.shell;
-    }
+  public Long getShell() {
+    return this.shell;
+  }
 
-    public void setShell(Long shell) {
-        this.shell = shell;
-    }
+  public void setShell(Long shell) {
+    this.shell = shell;
+  }
 
-    public String getName() {
-        return this.name;
-    }
+  public String getName() {
+    return this.name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public Long getSchool() {
-        return this.school;
-    }
+  public Long getSchool() {
+    return this.school;
+  }
 
-    public void setSchool(Long school) {
-        this.school = school;
-    }
+  public void setSchool(Long school) {
+    this.school = school;
+  }
 }

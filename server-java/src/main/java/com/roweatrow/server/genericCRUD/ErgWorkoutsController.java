@@ -10,30 +10,28 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/ergWorkouts")
 public class ErgWorkoutsController {
-private final ErgWorkoutRepository ergWorkoutRepository;
+  private final ErgWorkoutRepository ergWorkoutRepository;
 
-public CRUDController(
-        ErgWorkoutRepository ergWorkoutRepository
-        ){
-        this.ergWorkoutRepository=ergWorkoutRepository;
-        }
+  public CRUDController(ErgWorkoutRepository ergWorkoutRepository) {
+    this.ergWorkoutRepository = ergWorkoutRepository;
+  }
 
-@GetMapping(value = "/{ergWorkoutId}")
-public @ResponseBody ErgWorkout getErgWorkout(@PathVariable Long ergWorkoutId){
-        Optional<ErgWorkout> ergWorkout=ergWorkoutRepository.findById(ergWorkoutId);
-        return ergWorkout.orElse(null);
-        }
+  @GetMapping(value = "/{ergWorkoutId}")
+  public @ResponseBody ErgWorkout getErgWorkout(@PathVariable Long ergWorkoutId) {
+    Optional<ErgWorkout> ergWorkout = ergWorkoutRepository.findById(ergWorkoutId);
+    return ergWorkout.orElse(null);
+  }
 
-@PostMapping(value = "")
-public @ResponseBody ErgWorkout createErgWorkout(@RequestBody ErgWorkout requestBody){
-        if(requestBody.getErgWorkout()!=null){
-        Optional<ErgWorkout> ergWorkout=ergWorkoutRepository.findById(requestBody.getErgWorkout());
+  @PostMapping(value = "")
+  public @ResponseBody ErgWorkout createErgWorkout(@RequestBody ErgWorkout requestBody) {
+    if (requestBody.getErgWorkout() != null) {
+      Optional<ErgWorkout> ergWorkout = ergWorkoutRepository.findById(requestBody.getErgWorkout());
 
-        if(ergWorkout.isPresent()){
+      if (ergWorkout.isPresent()) {
         return ergWorkout.get();
-        }
-        }
+      }
+    }
 
-        return ergWorkoutRepository.save(requestBody);
-        }
-        }
+    return ergWorkoutRepository.save(requestBody);
+  }
+}

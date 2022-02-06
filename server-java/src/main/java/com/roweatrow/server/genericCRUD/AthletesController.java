@@ -10,30 +10,28 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/athletes")
 public class AthletesController {
-    private final AthleteRepository athleteRepository;
+  private final AthleteRepository athleteRepository;
 
-    public AthletesController(
-            AthleteRepository athleteRepository
-    ) {
-        this.athleteRepository = athleteRepository;
+  public AthletesController(AthleteRepository athleteRepository) {
+    this.athleteRepository = athleteRepository;
+  }
+
+  @GetMapping(value = "/{athleteId}")
+  public @ResponseBody Athlete getAthlete(@PathVariable Long athleteId) {
+    Optional<Athlete> athlete = athleteRepository.findById(athleteId);
+    return athlete.orElse(null);
+  }
+
+  @PostMapping(value = "")
+  public @ResponseBody Athlete createAthlete(@RequestBody Athlete requestBody) {
+    if (requestBody.getAthlete() != null) {
+      Optional<Athlete> athlete = athleteRepository.findById(requestBody.getAthlete());
+
+      if (athlete.isPresent()) {
+        return athlete.get();
+      }
     }
 
-    @GetMapping(value = "/{athleteId}")
-    public @ResponseBody Athlete getAthlete(@PathVariable Long athleteId){
-        Optional<Athlete> athlete = athleteRepository.findById(athleteId);
-        return athlete.orElse(null);
-    }
-
-    @PostMapping(value = "")
-    public @ResponseBody Athlete createAthlete(@RequestBody Athlete requestBody){
-        if(requestBody.getAthlete() != null) {
-            Optional<Athlete> athlete = athleteRepository.findById(requestBody.getAthlete());
-
-            if (athlete.isPresent()) {
-                return athlete.get();
-            }
-        }
-
-        return athleteRepository.save(requestBody);
-    }
+    return athleteRepository.save(requestBody);
+  }
 }

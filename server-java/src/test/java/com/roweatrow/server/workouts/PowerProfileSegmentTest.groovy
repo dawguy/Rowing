@@ -13,7 +13,7 @@ class PowerProfileSegmentTest extends Specification {
         PowerProfileSegment powerProfileSegment = new PowerProfileSegment(200,0,10)
         PowerProfileSegment otherPowerProfileSegment = new PowerProfileSegment(100,10,20)
         when: "joinWith is called with null values"
-        def result = powerProfileSegment.joinWith(null, otherPowerProfileSegment);
+        def result = powerProfileSegment.joinWith(null, otherPowerProfileSegment)
         then:
         30 == result.getDuration()
         133 == result.getPower()
@@ -25,7 +25,7 @@ class PowerProfileSegmentTest extends Specification {
         PowerProfileSegment powerProfileSegment = new PowerProfileSegment(200,0,10)
         PowerProfileSegment otherPowerProfileSegment = new PowerProfileSegment(100,10,20)
         when: "joinWith is called with null values"
-        def result = powerProfileSegment.joinWith(otherPowerProfileSegment, null);
+        def result = powerProfileSegment.joinWith(otherPowerProfileSegment, null)
         then:
         30 == result.getDuration()
         133 == result.getPower()
@@ -39,7 +39,7 @@ class PowerProfileSegmentTest extends Specification {
         PowerProfileSegment higherPowerProfileSegment = new PowerProfileSegment(200,20,15)
 
         when: "joinWith is called with a higher power after"
-        def result = powerProfileSegment.joinWith(higherPowerProfileSegment, lowerPowerProfileSegment);
+        def result = powerProfileSegment.joinWith(higherPowerProfileSegment, lowerPowerProfileSegment)
         then:
         25 == result.getDuration()
         240 == result.getPower()
@@ -53,7 +53,7 @@ class PowerProfileSegmentTest extends Specification {
         PowerProfileSegment higherPowerProfileSegment = new PowerProfileSegment(100,20,15)
 
         when: "joinWith is called with a higher power after"
-        def result = powerProfileSegment.joinWith(higherPowerProfileSegment, lowerPowerProfileSegment);
+        def result = powerProfileSegment.joinWith(higherPowerProfileSegment, lowerPowerProfileSegment)
         then:
         15 == result.getDuration()
         266 == result.getPower()
@@ -67,7 +67,7 @@ class PowerProfileSegmentTest extends Specification {
         PowerProfileSegment higherPowerProfileSegment = new PowerProfileSegment(200,15,15)
 
         when: "joinWith is called with equal power averages before and after"
-        def result = powerProfileSegment.joinWith(lowerPowerProfileSegment, higherPowerProfileSegment);
+        def result = powerProfileSegment.joinWith(lowerPowerProfileSegment, higherPowerProfileSegment)
         then:
         25 == result.getDuration()
         240 == result.getPower()
@@ -82,7 +82,7 @@ class PowerProfileSegmentTest extends Specification {
         PowerProfileSegment higherPowerProfileSegment = new PowerProfileSegment(200,30,5)
 
         when: "joinWith is called with equal power averages before and after"
-        def result = powerProfileSegment.joinWith(lowerPowerProfileSegment, higherPowerProfileSegment);
+        def result = powerProfileSegment.joinWith(lowerPowerProfileSegment, higherPowerProfileSegment)
         then:
         30 == result.getDuration()
         233.33333333333334 == result.getPower()
