@@ -12,7 +12,7 @@ import java.util.Optional;
 public class ErgSplitsController {
   private final ErgSplitRepository ergSplitRepository;
 
-  public CRUDController(ErgSplitRepository ergSplitRepository) {
+  public ErgSplitsController(ErgSplitRepository ergSplitRepository) {
     this.ergSplitRepository = ergSplitRepository;
   }
 

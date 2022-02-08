@@ -12,7 +12,7 @@ import java.util.Optional;
 public class CompetitionLevelsController {
   private final CompetitionLevelRepository competitionLevelRepository;
 
-  public CRUDController(CompetitionLevelRepository competitionLevelRepository) {
+  public CompetitionLevelsController(CompetitionLevelRepository competitionLevelRepository) {
     this.competitionLevelRepository = competitionLevelRepository;
   }
 

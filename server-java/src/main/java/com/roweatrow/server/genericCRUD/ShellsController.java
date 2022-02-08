@@ -12,7 +12,7 @@ import java.util.Optional;
 public class ShellsController {
   private final ShellRepository shellRepository;
 
-  public CRUDController(ShellRepository shellRepository) {
+  public ShellsController(ShellRepository shellRepository) {
     this.shellRepository = shellRepository;
   }
 

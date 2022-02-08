@@ -12,7 +12,7 @@ import java.util.Optional;
 public class ErgWorkoutsController {
   private final ErgWorkoutRepository ergWorkoutRepository;
 
-  public CRUDController(ErgWorkoutRepository ergWorkoutRepository) {
+  public ErgWorkoutsController(ErgWorkoutRepository ergWorkoutRepository) {
     this.ergWorkoutRepository = ergWorkoutRepository;
   }
 

@@ -16,8 +16,8 @@ public class Shell {
   @Column(name = "name")
   private String name;
 
-  @Column(name = "school")
-  private Long school;
+  @Column(name = "team")
+  private Long team;
 
   public Long getShell() {
     return this.shell;
@@ -35,11 +35,11 @@ public class Shell {
     this.name = name;
   }
 
-  public Long getSchool() {
-    return this.school;
+  public Long getTeam() {
+    return this.team;
   }
 
-  public void setSchool(Long school) {
-    this.school = school;
+  public void setTeam(Long team) {
+    this.team = team;
   }
 }

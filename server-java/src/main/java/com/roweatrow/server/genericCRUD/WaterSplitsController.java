@@ -12,7 +12,7 @@ import java.util.Optional;
 public class WaterSplitsController {
   private final WaterSplitRepository waterSplitRepository;
 
-  public CRUDController(WaterSplitRepository waterSplitRepository) {
+  public WaterSplitsController(WaterSplitRepository waterSplitRepository) {
     this.waterSplitRepository = waterSplitRepository;
   }
 

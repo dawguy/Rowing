@@ -1,37 +1,37 @@
 package com.roweatrow.server.genericCRUD;
 
-import com.roweatrow.server.models.School;
-import com.roweatrow.server.respository.SchoolRepository;
+import com.roweatrow.server.models.Team;
+import com.roweatrow.server.respository.TeamRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/schools")
-public class SchoolsController {
-  private final SchoolRepository schoolRepository;
+@RequestMapping("/teams")
+public class TeamsController {
+  private final TeamRepository teamRepository;
 
-  public CRUDController(SchoolRepository schoolRepository) {
-    this.schoolRepository = schoolRepository;
+  public TeamsController(TeamRepository teamRepository) {
+    this.teamRepository = teamRepository;
   }
 
-  @GetMapping(value = "/{schoolId}")
-  public @ResponseBody School getSchool(@PathVariable Long schoolId) {
-    Optional<School> school = schoolRepository.findById(schoolId);
-    return school.orElse(null);
+  @GetMapping(value = "/{teamId}")
+  public @ResponseBody Team getTeam(@PathVariable Long teamId) {
+    Optional<Team> team = teamRepository.findById(teamId);
+    return team.orElse(null);
   }
 
   @PostMapping(value = "")
-  public @ResponseBody School createSchool(@RequestBody School requestBody) {
-    if (requestBody.getSchool() != null) {
-      Optional<School> school = schoolRepository.findById(requestBody.getSchool());
+  public @ResponseBody Team createTeam(@RequestBody Team requestBody) {
+    if (requestBody.getTeam() != null) {
+      Optional<Team> team = teamRepository.findById(requestBody.getTeam());
 
-      if (school.isPresent()) {
-        return school.get();
+      if (team.isPresent()) {
+        return team.get();
       }
     }
 
-    return schoolRepository.save(requestBody);
+    return teamRepository.save(requestBody);
   }
 }

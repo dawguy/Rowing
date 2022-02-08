@@ -5,23 +5,23 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "school")
-public class School {
+@Table(name = "team")
+public class Team {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonIgnoreProperties(ignoreUnknown = true)
-  @Column(name = "school")
-  private Long school;
+  @Column(name = "team")
+  private Long team;
 
   @Column(name = "name")
   private String name;
 
-  public Long getSchool() {
-    return this.school;
+  public Long getTeam() {
+    return this.team;
   }
 
-  public void setSchool(Long school) {
-    this.school = school;
+  public void setTeam(Long team) {
+    this.team = team;
   }
 
   public String getName() {

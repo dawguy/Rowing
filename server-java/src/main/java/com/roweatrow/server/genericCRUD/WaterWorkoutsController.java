@@ -12,7 +12,7 @@ import java.util.Optional;
 public class WaterWorkoutsController {
   private final WaterWorkoutRepository waterWorkoutRepository;
 
-  public CRUDController(WaterWorkoutRepository waterWorkoutRepository) {
+  public WaterWorkoutsController(WaterWorkoutRepository waterWorkoutRepository) {
     this.waterWorkoutRepository = waterWorkoutRepository;
   }
 
