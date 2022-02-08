@@ -4,7 +4,10 @@ create table erg_workout
 	date date,
 	athlete int not null
 		constraint erg_workout_athlete_fk
-			references athlete
+			references athlete,
+	assigned_workout int
+		constraint water_workout_assigned_workout_fk
+			references assigned_workout
 );
 
 create unique index erg_workout_erg_workout_uindex

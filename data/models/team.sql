@@ -1,16 +1,16 @@
-create table school
+create table team
 (
-	school serial,
+	team serial,
 	name varchar,
     competition_level int
-    constraint school_competition_level_fk
+    constraint team_competition_level_fk
         references competition_level
 );
 
-create unique index school_school_uindex
-	on school (school);
+create unique index team_team_uindex
+	on team (team);
 
-alter table school
-	add constraint school_pk
-		primary key (school);
+alter table team
+	add constraint team_pk
+		primary key (team);
 

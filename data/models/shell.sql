@@ -5,9 +5,9 @@ create table shell
     shell_type int
         constraint shell_shell_type_fk
             references shell_type,
-	school int
-		constraint shell_school_fk
-			references school
+	team int
+		constraint shell_team_fk
+			references team
 );
 
 create unique index shell_shell_uindex
