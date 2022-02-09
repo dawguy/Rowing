@@ -12,7 +12,8 @@ import java.util.Optional;
 public class WaterWorkoutAthleteSplitsController {
   private final WaterWorkoutAthleteSplitRepository waterWorkoutAthleteSplitRepository;
 
-  public WaterWorkoutAthleteSplitsController(WaterWorkoutAthleteSplitRepository waterWorkoutAthleteSplitRepository) {
+  public WaterWorkoutAthleteSplitsController(
+      WaterWorkoutAthleteSplitRepository waterWorkoutAthleteSplitRepository) {
     this.waterWorkoutAthleteSplitRepository = waterWorkoutAthleteSplitRepository;
   }
 

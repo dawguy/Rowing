@@ -21,6 +21,9 @@ public class ErgWorkout implements Workout {
   @Column(name = "athlete")
   private Long athlete;
 
+  @Column(name = "assigned_workout")
+  private Long assignedWorkout;
+
   @OneToMany(mappedBy = "ergWorkout")
   private List<ErgSplit> ergSplits = new ArrayList<>();
 
@@ -46,6 +49,14 @@ public class ErgWorkout implements Workout {
 
   public void setAthlete(Long athlete) {
     this.athlete = athlete;
+  }
+
+  public Long getAssignedWorkout() {
+    return this.assignedWorkout;
+  }
+
+  public void setAssignedWorkout(Long assignedWorkout) {
+    this.assignedWorkout = assignedWorkout;
   }
 
   public List<? extends Split> getSplits() {

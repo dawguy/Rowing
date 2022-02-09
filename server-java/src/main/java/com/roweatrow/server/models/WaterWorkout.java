@@ -21,6 +21,9 @@ public class WaterWorkout implements Workout {
   @Column(name = "boat")
   private Long boat;
 
+  @Column(name = "assigned_workout")
+  private Long assignedWorkout;
+
   @OneToMany(mappedBy = "waterWorkout")
   private List<WaterSplit> waterSplits = new ArrayList<>();
 
@@ -46,6 +49,14 @@ public class WaterWorkout implements Workout {
 
   public void setBoat(Long boat) {
     this.boat = boat;
+  }
+
+  public Long getAssignedWorkout() {
+    return this.assignedWorkout;
+  }
+
+  public void setAssignedWorkout(Long assignedWorkout) {
+    this.assignedWorkout = assignedWorkout;
   }
 
   public List<? extends Split> getSplits() {
