@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "water_workout")
-public class WaterWorkout implements Workout {
+public class WaterWorkout implements Workout<WaterSplit> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonIgnoreProperties(ignoreUnknown = true)
@@ -26,6 +26,10 @@ public class WaterWorkout implements Workout {
 
   @OneToMany(mappedBy = "waterWorkout")
   private List<WaterSplit> waterSplits = new ArrayList<>();
+
+  public Long getWorkout(){
+    return this.waterWorkout;
+  }
 
   public Long getWaterWorkout() {
     return this.waterWorkout;
@@ -59,7 +63,11 @@ public class WaterWorkout implements Workout {
     this.assignedWorkout = assignedWorkout;
   }
 
-  public List<? extends Split> getSplits() {
+  public List<WaterSplit> getSplits() {
     return this.waterSplits;
+  }
+
+  public String getName() {
+    return ""; // TODO: Do later
   }
 }

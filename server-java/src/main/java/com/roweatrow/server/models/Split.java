@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 public interface Split {
   Timestamp getDuration();
 
+  Long getDistance();
+
   default Long getPower() {
     return null;
   }
@@ -13,5 +15,11 @@ public interface Split {
     return null;
   }
 
-  Long getDistance();
+  Long getSeq();
+
+  void setSeq(Long seq);
+
+  Long getWorkout();
+
+  void setWorkout(Long workout);
 }

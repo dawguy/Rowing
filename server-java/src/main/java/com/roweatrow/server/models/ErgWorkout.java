@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "erg_workout")
-public class ErgWorkout implements Workout {
+public class ErgWorkout implements Workout<ErgSplit> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonIgnoreProperties(ignoreUnknown = true)
@@ -26,6 +26,10 @@ public class ErgWorkout implements Workout {
 
   @OneToMany(mappedBy = "ergWorkout")
   private List<ErgSplit> ergSplits = new ArrayList<>();
+
+  public Long getWorkout(){
+    return this.ergWorkout;
+  }
 
   public Long getErgWorkout() {
     return this.ergWorkout;
@@ -59,7 +63,11 @@ public class ErgWorkout implements Workout {
     this.assignedWorkout = assignedWorkout;
   }
 
-  public List<? extends Split> getSplits() {
+  public List<ErgSplit> getSplits() {
     return this.ergSplits;
+  }
+
+  public String getName() {
+    return ""; // TODO: Do later
   }
 }

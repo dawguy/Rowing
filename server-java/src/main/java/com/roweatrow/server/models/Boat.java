@@ -3,6 +3,11 @@ package com.roweatrow.server.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "boat")
@@ -129,5 +134,11 @@ public class Boat {
 
   public void setSeat1(Long seat1) {
     this.seat1 = seat1;
+  }
+
+  // For now excluding coxswains, as they won't have heart rate or power data.
+  public List<Long> getAthletes(){
+    Long[] athletes = new Long[]{seat1,seat2,seat3,seat4,seat5,seat6,seat7,seat8};
+    return Arrays.stream(athletes).filter(Objects::nonNull).collect(Collectors.toList());
   }
 }

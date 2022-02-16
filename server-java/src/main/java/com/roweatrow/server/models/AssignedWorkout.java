@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "assigned_workout")
-public class AssignedWorkout implements Workout {
+public class AssignedWorkout implements Workout<TemplateSplit> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonIgnoreProperties(ignoreUnknown = true)
@@ -28,6 +28,10 @@ public class AssignedWorkout implements Workout {
   private TemplateWorkout templateWorkout;
 
   public Long getAssignedWorkout() {
+    return this.assignedWorkout;
+  }
+
+  public Long getWorkout() {
     return this.assignedWorkout;
   }
 
@@ -67,7 +71,7 @@ public class AssignedWorkout implements Workout {
     this.templateWorkout = templateWorkout;
   }
 
-  public List<? extends Split> getSplits() {
+  public List<TemplateSplit> getSplits() {
     return this.templateWorkout != null ? this.templateWorkout.getSplits() : null;
   }
 }

@@ -1,11 +1,17 @@
 package com.roweatrow.server.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "water_workout_athlete_split")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class WaterWorkoutAthleteSplit {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

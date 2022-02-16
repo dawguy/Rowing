@@ -1,12 +1,18 @@
 package com.roweatrow.server.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "template_split")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TemplateSplit implements Split {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,5 +70,13 @@ public class TemplateSplit implements Split {
 
   public void setDistance(Long distance) {
     this.distance = distance;
+  }
+
+  public Long getWorkout() {
+    return getTemplateWorkout();
+  }
+
+  public void setWorkout(Long workout){
+    setTemplateWorkout(workout);
   }
 }

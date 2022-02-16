@@ -1,12 +1,18 @@
 package com.roweatrow.server.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "erg_split")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ErgSplit implements Split {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -86,5 +92,13 @@ public class ErgSplit implements Split {
 
   public void setPower(Long power) {
     this.power = power;
+  }
+
+  public Long getWorkout() {
+    return getErgWorkout();
+  }
+
+  public void setWorkout(Long workout){
+    setErgWorkout(workout);
   }
 }

@@ -1,19 +1,21 @@
 package com.roweatrow.server.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
-import java.util.stream.Stream;
 
 @Entity
 @Table(name = "water_split")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class WaterSplit implements Split {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -118,5 +120,13 @@ public class WaterSplit implements Split {
             .mapToDouble(d -> (double) d)
             .average()
             .orElse(0.0);
+  }
+
+  public Long getWorkout() {
+    return getWaterWorkout();
+  }
+
+  public void setWorkout(Long workout){
+    setWaterWorkout(workout);
   }
 }
