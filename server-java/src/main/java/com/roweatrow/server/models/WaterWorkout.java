@@ -33,7 +33,7 @@ public class WaterWorkout implements Workout<WaterSplit> {
   @OneToMany(mappedBy = "waterWorkout")
   private List<WaterSplit> waterSplits = new ArrayList<>();
 
-  public Long getWorkout(){
+  public Long getWorkout() {
     return this.waterWorkout;
   }
 

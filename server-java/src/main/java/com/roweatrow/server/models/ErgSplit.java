@@ -98,7 +98,7 @@ public class ErgSplit implements Split {
     return getErgWorkout();
   }
 
-  public void setWorkout(Long workout){
+  public void setWorkout(Long workout) {
     setErgWorkout(workout);
   }
 }

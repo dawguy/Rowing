@@ -127,7 +127,7 @@ public class WaterSplit implements Split {
     return getWaterWorkout();
   }
 
-  public void setWorkout(Long workout){
+  public void setWorkout(Long workout) {
     setWaterWorkout(workout);
   }
 }

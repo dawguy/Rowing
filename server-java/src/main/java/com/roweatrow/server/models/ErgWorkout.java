@@ -33,7 +33,7 @@ public class ErgWorkout implements Workout<ErgSplit> {
   @OneToMany(mappedBy = "ergWorkout")
   private List<ErgSplit> ergSplits = new ArrayList<>();
 
-  public Long getWorkout(){
+  public Long getWorkout() {
     return this.ergWorkout;
   }
 

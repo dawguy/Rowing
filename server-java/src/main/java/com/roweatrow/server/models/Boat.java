@@ -137,8 +137,8 @@ public class Boat {
   }
 
   // For now excluding coxswains, as they won't have heart rate or power data.
-  public List<Long> getAthletes(){
-    Long[] athletes = new Long[]{seat1,seat2,seat3,seat4,seat5,seat6,seat7,seat8};
+  public List<Long> getAthletes() {
+    Long[] athletes = new Long[] {seat1, seat2, seat3, seat4, seat5, seat6, seat7, seat8};
     return Arrays.stream(athletes).filter(Objects::nonNull).collect(Collectors.toList());
   }
 }

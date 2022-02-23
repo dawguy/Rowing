@@ -30,7 +30,7 @@ public class TemplateWorkout implements Workout<TemplateSplit> {
   @OneToMany(mappedBy = "templateSplit")
   private List<TemplateSplit> templateSplits = new ArrayList<>();
 
-  public Long getWorkout(){
+  public Long getWorkout() {
     return this.templateWorkout;
   }
 

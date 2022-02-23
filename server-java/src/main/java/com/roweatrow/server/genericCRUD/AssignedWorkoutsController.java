@@ -18,7 +18,9 @@ public class AssignedWorkoutsController {
   private final AssignedWorkoutRepository assignedWorkoutRepository;
   private final TemplateWorkoutRepository templateWorkoutRepository;
 
-  public AssignedWorkoutsController(AssignedWorkoutRepository assignedWorkoutRepository, TemplateWorkoutRepository templateWorkoutRepository) {
+  public AssignedWorkoutsController(
+      AssignedWorkoutRepository assignedWorkoutRepository,
+      TemplateWorkoutRepository templateWorkoutRepository) {
     this.assignedWorkoutRepository = assignedWorkoutRepository;
     this.templateWorkoutRepository = templateWorkoutRepository;
   }
@@ -42,12 +44,14 @@ public class AssignedWorkoutsController {
       }
     }
 
-    Optional<TemplateWorkout> optionalTemplateWorkout = templateWorkoutRepository.findById(requestBody.getTemplateWorkout());
-    if(optionalTemplateWorkout.isEmpty()){
+    Optional<TemplateWorkout> optionalTemplateWorkout =
+        templateWorkoutRepository.findById(requestBody.getTemplateWorkout());
+    if (optionalTemplateWorkout.isEmpty()) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid template workout");
     }
 
-    AssignedWorkout assignedWorkout = AssignedWorkout.builder()
+    AssignedWorkout assignedWorkout =
+        AssignedWorkout.builder()
             .name(requestBody.getName())
             .date(requestBody.getDate())
             .templateWorkout(optionalTemplateWorkout.get())

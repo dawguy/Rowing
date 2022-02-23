@@ -76,7 +76,7 @@ public class TemplateSplit implements Split {
     return getTemplateWorkout();
   }
 
-  public void setWorkout(Long workout){
+  public void setWorkout(Long workout) {
     setTemplateWorkout(workout);
   }
 }

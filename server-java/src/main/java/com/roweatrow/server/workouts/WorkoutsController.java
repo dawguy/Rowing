@@ -25,11 +25,11 @@ public class WorkoutsController {
   private final WaterWorkoutAthleteSplitRepository waterWorkoutAthleteSplitRepository;
 
   public WorkoutsController(
-          WaterWorkoutRepository waterWorkoutRepository,
-          ErgWorkoutRepository ergWorkoutRepository,
-          WorkoutService workoutService,
-          WorkoutSplitsService workoutSplitsService,
-          WaterWorkoutAthleteSplitRepository waterWorkoutAthleteSplitRepository) {
+      WaterWorkoutRepository waterWorkoutRepository,
+      ErgWorkoutRepository ergWorkoutRepository,
+      WorkoutService workoutService,
+      WorkoutSplitsService workoutSplitsService,
+      WaterWorkoutAthleteSplitRepository waterWorkoutAthleteSplitRepository) {
     this.waterWorkoutRepository = waterWorkoutRepository;
     this.ergWorkoutRepository = ergWorkoutRepository;
     this.workoutService = workoutService;
@@ -60,16 +60,18 @@ public class WorkoutsController {
   }
 
   @PostMapping(value = "/water/addSplit")
-  public @ResponseBody WaterWorkout addWaterSplit(@RequestBody AddSplit addSplit) throws NoSuchFieldException {
+  public @ResponseBody WaterWorkout addWaterSplit(@RequestBody AddSplit addSplit)
+      throws NoSuchFieldException {
     Optional<WaterWorkout> oWorkout = waterWorkoutRepository.findById(addSplit.getWorkoutId());
 
-    if(oWorkout.isEmpty()){
+    if (oWorkout.isEmpty()) {
       return null;
     }
 
     WaterWorkout w = oWorkout.get();
 
-    WaterWorkoutAthleteSplit waterWorkoutAthleteSplit = WaterWorkoutAthleteSplit.builder()
+    WaterWorkoutAthleteSplit waterWorkoutAthleteSplit =
+        WaterWorkoutAthleteSplit.builder()
             .athlete(addSplit.getAthleteId())
             .heartRate(addSplit.getHeartRate())
             .power(addSplit.getPower())

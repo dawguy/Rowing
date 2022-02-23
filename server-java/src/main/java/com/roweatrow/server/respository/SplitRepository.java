@@ -8,31 +8,30 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class SplitRepository {
-    private static final Logger log = LoggerFactory.getLogger(SplitRepository.class);
+  private static final Logger log = LoggerFactory.getLogger(SplitRepository.class);
 
-    private final ErgSplitRepository ergSplitRepository;
-    private final WaterSplitRepository waterSplitRepository;
-    private final TemplateSplitRepository templateSplitRepository;
+  private final ErgSplitRepository ergSplitRepository;
+  private final WaterSplitRepository waterSplitRepository;
+  private final TemplateSplitRepository templateSplitRepository;
 
-    public SplitRepository(
-            ErgSplitRepository ergSplitRepository,
-            WaterSplitRepository waterSplitRepository,
-            TemplateSplitRepository templateSplitRepository
-    ){
-        this.ergSplitRepository = ergSplitRepository;
-        this.waterSplitRepository = waterSplitRepository;
-        this.templateSplitRepository = templateSplitRepository;
+  public SplitRepository(
+      ErgSplitRepository ergSplitRepository,
+      WaterSplitRepository waterSplitRepository,
+      TemplateSplitRepository templateSplitRepository) {
+    this.ergSplitRepository = ergSplitRepository;
+    this.waterSplitRepository = waterSplitRepository;
+    this.templateSplitRepository = templateSplitRepository;
+  }
+
+  public void save(Split w) {
+    if (w instanceof ErgSplit) {
+      ergSplitRepository.save((ErgSplit) w);
+    } else if (w instanceof WaterSplit) {
+      waterSplitRepository.save((WaterSplit) w);
+    } else if (w instanceof TemplateSplit) {
+      templateSplitRepository.save((TemplateSplit) w);
+    } else {
+      log.error("Invalid split save called.");
     }
-
-    public void save(Split w){
-        if(w instanceof ErgSplit){
-            ergSplitRepository.save((ErgSplit) w);
-        } else if(w instanceof WaterSplit){
-            waterSplitRepository.save((WaterSplit) w);
-        } else if(w instanceof TemplateSplit){
-            templateSplitRepository.save((TemplateSplit) w);
-        } else {
-            log.error("Invalid split save called.");
-        }
-    }
+  }
 }
