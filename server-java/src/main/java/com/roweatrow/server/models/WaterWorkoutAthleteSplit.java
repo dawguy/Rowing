@@ -19,9 +19,6 @@ public class WaterWorkoutAthleteSplit {
   @Column(name = "water_workout_athlete_split")
   private Long waterWorkoutAthleteSplit;
 
-  @Column(name = "water_split")
-  private Long waterSplit;
-
   @Column(name = "athlete")
   private Long athlete;
 
@@ -37,14 +34,6 @@ public class WaterWorkoutAthleteSplit {
 
   public void setWaterWorkoutAthleteSplit(Long waterWorkoutAthleteSplit) {
     this.waterWorkoutAthleteSplit = waterWorkoutAthleteSplit;
-  }
-
-  public Long getWaterSplit() {
-    return this.waterSplit;
-  }
-
-  public void setWaterSplit(Long waterSplit) {
-    this.waterSplit = waterSplit;
   }
 
   public Long getAthlete() {

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,23 +69,21 @@ public class WorkoutsController {
 
     WaterWorkout w = oWorkout.get();
 
-    WaterSplit noAthleteWaterSplit = WaterSplit.builder()
-        .distance(addSplit.getDistance())
-        .duration(addSplit.getDuration())
-        .flowRate(addSplit.getFlowRate())
-        .withFlow(addSplit.getWithFlow())
-        .build();
-    List<WaterSplit> waterSplits = workoutSplitsService.addSplit(w, noAthleteWaterSplit);
-    WaterSplit waterSplit = waterSplits.get(waterSplits.size() - 1);
-
     WaterWorkoutAthleteSplit waterWorkoutAthleteSplit = WaterWorkoutAthleteSplit.builder()
-            .waterSplit(waterSplit.getWaterSplit())
             .athlete(addSplit.getAthleteId())
             .heartRate(addSplit.getHeartRate())
             .power(addSplit.getPower())
             .build();
 
-    waterWorkoutAthleteSplitRepository.save(waterWorkoutAthleteSplit);
+    WaterSplit noAthleteWaterSplit =
+        WaterSplit.builder()
+            .distance(addSplit.getDistance())
+            .duration(addSplit.getDuration())
+            .flowRate(addSplit.getFlowRate())
+            .withFlow(addSplit.getWithFlow())
+            .waterWorkoutAthleteSplit(List.of(waterWorkoutAthleteSplit))
+            .build();
+    workoutSplitsService.addSplit(w, noAthleteWaterSplit);
     return waterWorkoutRepository.findById(addSplit.getWorkoutId()).orElse(null);
   }
 }

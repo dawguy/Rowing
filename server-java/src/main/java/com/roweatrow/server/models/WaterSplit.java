@@ -41,7 +41,8 @@ public class WaterSplit implements Split {
   @Column(name = "flow_rate")
   private Long flowRate;
 
-  @OneToMany(mappedBy = "waterSplit", cascade = CascadeType.PERSIST)
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "water_split", nullable = false)
   private List<WaterWorkoutAthleteSplit> waterWorkoutAthleteSplit = new ArrayList<>();
 
   public Long getWaterSplit() {
