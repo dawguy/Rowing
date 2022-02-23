@@ -1,13 +1,13 @@
 package com.roweatrow.server.workouts;
 
-import com.roweatrow.server.models.Athlete;
-import com.roweatrow.server.models.ErgWorkout;
-import com.roweatrow.server.models.WaterWorkout;
-import com.roweatrow.server.models.Workout;
+import com.roweatrow.server.dtos.AddSplit;
+import com.roweatrow.server.models.*;
 import com.roweatrow.server.respository.ErgWorkoutRepository;
+import com.roweatrow.server.respository.WaterWorkoutAthleteSplitRepository;
 import com.roweatrow.server.respository.WaterWorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,14 +19,20 @@ public class WorkoutsController {
   private final WaterWorkoutRepository waterWorkoutRepository;
   private final ErgWorkoutRepository ergWorkoutRepository;
   private final WorkoutService workoutService;
+  private final WorkoutSplitsService workoutSplitsService;
+  private final WaterWorkoutAthleteSplitRepository waterWorkoutAthleteSplitRepository;
 
   public WorkoutsController(
-      WaterWorkoutRepository waterWorkoutRepository,
-      ErgWorkoutRepository ergWorkoutRepository,
-      WorkoutService workoutService) {
+          WaterWorkoutRepository waterWorkoutRepository,
+          ErgWorkoutRepository ergWorkoutRepository,
+          WorkoutService workoutService,
+          WorkoutSplitsService workoutSplitsService,
+          WaterWorkoutAthleteSplitRepository waterWorkoutAthleteSplitRepository) {
     this.waterWorkoutRepository = waterWorkoutRepository;
     this.ergWorkoutRepository = ergWorkoutRepository;
     this.workoutService = workoutService;
+    this.workoutSplitsService = workoutSplitsService;
+    this.waterWorkoutAthleteSplitRepository = waterWorkoutAthleteSplitRepository;
   }
 
   @GetMapping(value = "/water/{workoutId}")
@@ -49,5 +55,35 @@ public class WorkoutsController {
   @GetMapping(value = "/boat/{boatId}")
   public @ResponseBody List<? extends Workout> getBoatWorkouts(@PathVariable Long boatId) {
     return workoutService.getWorkoutsByBoat(boatId);
+  }
+
+  @PostMapping(value = "/water/addSplit")
+  public @ResponseBody WaterWorkout addWaterSplit(@RequestBody AddSplit addSplit) throws NoSuchFieldException {
+    Optional<WaterWorkout> oWorkout = waterWorkoutRepository.findById(addSplit.getWorkoutId());
+
+    if(oWorkout.isEmpty()){
+      return null;
+    }
+
+    WaterWorkout w = oWorkout.get();
+
+    WaterSplit noAthleteWaterSplit = WaterSplit.builder()
+        .distance(addSplit.getDistance())
+        .duration(addSplit.getDuration())
+        .flowRate(addSplit.getFlowRate())
+        .withFlow(addSplit.getWithFlow())
+        .build();
+    List<WaterSplit> waterSplits = workoutSplitsService.addSplit(w, noAthleteWaterSplit);
+    WaterSplit waterSplit = waterSplits.get(waterSplits.size() - 1);
+
+    WaterWorkoutAthleteSplit waterWorkoutAthleteSplit = WaterWorkoutAthleteSplit.builder()
+            .waterSplit(waterSplit.getWaterSplit())
+            .athlete(addSplit.getAthleteId())
+            .heartRate(addSplit.getHeartRate())
+            .power(addSplit.getPower())
+            .build();
+
+    waterWorkoutAthleteSplitRepository.save(waterWorkoutAthleteSplit);
+    return waterWorkoutRepository.findById(addSplit.getWorkoutId()).orElse(null);
   }
 }

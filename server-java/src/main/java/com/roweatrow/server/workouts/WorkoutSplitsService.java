@@ -2,10 +2,13 @@ package com.roweatrow.server.workouts;
 
 import com.roweatrow.server.models.*;
 import com.roweatrow.server.respository.*;
+import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class WorkoutSplitsService {
 
     private final WorkoutRepository workoutRepository;
@@ -67,8 +70,8 @@ public class WorkoutSplitsService {
         return shiftedSplits;
     }
 
-    public TemplateWorkout cloneWorkoutSplitsToTemplateSplits(Workout w, Long team){
-        List<Split> splits = w.getSplits();
+    public TemplateWorkout cloneWorkoutSplitsToTemplateSplits(Workout<? extends Split> w, Long team){
+        List<? extends Split> splits = w.getSplits();
         List<TemplateSplit> templateSplits = splits.stream().map(s ->
                 TemplateSplit.builder()
                         .duration(s.getDuration())
@@ -89,28 +92,55 @@ public class WorkoutSplitsService {
         return savedWorkout;
     }
 
-    public List<ErgSplit> cloneToErgSplits(Workout<? extends Split> w){
+    public List<ErgSplit> assignAsErgSplits(AssignedWorkout w, Athlete a, Date date){
         List<? extends Split> splits = w.getSplits();
-        return splits.stream().map(s ->
+        ErgWorkout ergWorkout = ErgWorkout.builder()
+                .assignedWorkout(w.getAssignedWorkout())
+                .date(date)
+                .build();
+        ErgWorkout savedWaterWorkout = workoutRepository.save(ergWorkout);
+
+        List<ErgSplit> ergSplits = splits.stream().map(s ->
             ErgSplit.builder()
+                    .ergWorkout(savedWaterWorkout.getErgWorkout())
                     .duration(s.getDuration())
                     .distance(s.getDistance())
                     .seq(s.getSeq())
                     .build()
         ).collect(Collectors.toList());
+
+        for(ErgSplit es : ergSplits){
+            splitRepository.save(es);
+        }
+
+        return ergSplits;
     }
 
-    public List<Split> cloneToWaterSplits(Workout<? extends Split> w, Boat b){
+    public List<WaterSplit> assignAsWaterSplits(AssignedWorkout w, Boat b, Date date){
         List<? extends Split> splits = w.getSplits();
         List<Long> athletes = b.getAthletes();
-        return splits.stream().map(s -> {
+        WaterWorkout waterWorkout = WaterWorkout.builder()
+                .assignedWorkout(w.getAssignedWorkout())
+                .boat(b.getBoat())
+                .date(date)
+                .build();
+        WaterWorkout savedWaterWorkout = workoutRepository.save(waterWorkout);
+
+        List<WaterSplit> waterSplits = splits.stream().map(s -> {
             List<WaterWorkoutAthleteSplit> waterWorkoutAthleteSplits = athletes.stream().map(a -> WaterWorkoutAthleteSplit.builder().athlete(a).build()).collect(Collectors.toList());
             return WaterSplit.builder()
+                    .waterWorkout(savedWaterWorkout.getWaterWorkout())
                     .duration(s.getDuration())
                     .distance(s.getDistance())
                     .seq(s.getSeq())
                     .waterWorkoutAthleteSplit(waterWorkoutAthleteSplits)
                     .build();
         }).collect(Collectors.toList());
+
+        for(WaterSplit ws : waterSplits){
+            splitRepository.save(ws);
+        }
+
+        return waterSplits;
     }
 }

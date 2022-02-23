@@ -1,6 +1,9 @@
 package com.roweatrow.server.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,6 +11,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "erg_workout")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ErgWorkout implements Workout<ErgSplit> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
