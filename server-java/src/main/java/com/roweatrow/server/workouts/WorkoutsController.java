@@ -3,6 +3,7 @@ package com.roweatrow.server.workouts;
 import com.roweatrow.server.dtos.AddSplit;
 import com.roweatrow.server.models.*;
 import com.roweatrow.server.respository.ErgWorkoutRepository;
+import com.roweatrow.server.respository.TemplateWorkoutRepository;
 import com.roweatrow.server.respository.WaterWorkoutAthleteSplitRepository;
 import com.roweatrow.server.respository.WaterWorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class WorkoutsController {
   private final WaterWorkoutRepository waterWorkoutRepository;
   private final ErgWorkoutRepository ergWorkoutRepository;
+  private final TemplateWorkoutRepository templateWorkoutRepository;
   private final WorkoutService workoutService;
   private final WorkoutSplitsService workoutSplitsService;
   private final WaterWorkoutAthleteSplitRepository waterWorkoutAthleteSplitRepository;
@@ -29,11 +31,13 @@ public class WorkoutsController {
       ErgWorkoutRepository ergWorkoutRepository,
       WorkoutService workoutService,
       WorkoutSplitsService workoutSplitsService,
+      TemplateWorkoutRepository templateWorkoutRepository,
       WaterWorkoutAthleteSplitRepository waterWorkoutAthleteSplitRepository) {
     this.waterWorkoutRepository = waterWorkoutRepository;
     this.ergWorkoutRepository = ergWorkoutRepository;
     this.workoutService = workoutService;
     this.workoutSplitsService = workoutSplitsService;
+    this.templateWorkoutRepository = templateWorkoutRepository;
     this.waterWorkoutAthleteSplitRepository = waterWorkoutAthleteSplitRepository;
   }
 
@@ -60,8 +64,7 @@ public class WorkoutsController {
   }
 
   @PostMapping(value = "/water/addSplit")
-  public @ResponseBody WaterWorkout addWaterSplit(@RequestBody AddSplit addSplit)
-      throws NoSuchFieldException {
+  public @ResponseBody WaterWorkout addWaterSplit(@RequestBody AddSplit addSplit) {
     Optional<WaterWorkout> oWorkout = waterWorkoutRepository.findById(addSplit.getWorkoutId());
 
     if (oWorkout.isEmpty()) {
@@ -69,7 +72,6 @@ public class WorkoutsController {
     }
 
     WaterWorkout w = oWorkout.get();
-
     WaterWorkoutAthleteSplit waterWorkoutAthleteSplit =
         WaterWorkoutAthleteSplit.builder()
             .athlete(addSplit.getAthleteId())
@@ -87,5 +89,44 @@ public class WorkoutsController {
             .build();
     workoutSplitsService.addSplit(w, noAthleteWaterSplit);
     return waterWorkoutRepository.findById(addSplit.getWorkoutId()).orElse(null);
+  }
+
+  @PostMapping(value = "/erg/addSplit")
+  public @ResponseBody ErgWorkout addErgSplit(@RequestBody AddSplit addSplit) {
+    Optional<ErgWorkout> oWorkout = ergWorkoutRepository.findById(addSplit.getWorkoutId());
+
+    if (oWorkout.isEmpty()) {
+      return null;
+    }
+
+    ErgWorkout w = oWorkout.get();
+    ErgSplit ergSplit =
+        ErgSplit.builder()
+            .distance(addSplit.getDistance())
+            .duration(addSplit.getDuration())
+            .heartRate(addSplit.getHeartRate())
+            .power(addSplit.getPower())
+            .build();
+    workoutSplitsService.addSplit(w, ergSplit);
+    return ergWorkoutRepository.findById(addSplit.getWorkoutId()).orElse(null);
+  }
+
+  @PostMapping(value = "/template/addSplit")
+  public @ResponseBody TemplateWorkout addTemplateSplit(@RequestBody AddSplit addSplit) {
+    Optional<TemplateWorkout> oWorkout =
+        templateWorkoutRepository.findById(addSplit.getWorkoutId());
+
+    if (oWorkout.isEmpty()) {
+      return null;
+    }
+
+    TemplateWorkout w = oWorkout.get();
+    TemplateSplit templateSplit =
+        TemplateSplit.builder()
+            .distance(addSplit.getDistance())
+            .duration(addSplit.getDuration())
+            .build();
+    workoutSplitsService.addSplit(w, templateSplit);
+    return templateWorkoutRepository.findById(addSplit.getWorkoutId()).orElse(null);
   }
 }
