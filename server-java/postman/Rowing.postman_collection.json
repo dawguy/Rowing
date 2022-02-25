@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "Athletes",
+			"name": "Get And Creates",
 			"item": [
 				{
 					"name": "GET",
@@ -24,6 +24,196 @@
 									"port": "8080",
 									"path": [
 										"athletes",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Boat",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/boats/2",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"boats",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Competition Level",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/competitionLevels/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"competitionLevels",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Erg Split",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/ergSplits/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ergSplits",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Erg Workout",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/ergWorkouts/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ergWorkouts",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "School",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/schools/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"schools",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Shell",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/shells/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"shells",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Water Split",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/waterSplits/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"waterSplits",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Water Workout Athlete Split",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/waterWorkoutAthleteSplits/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"waterWorkoutAthleteSplits",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Water Workout",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/waterWorkouts/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"waterWorkouts",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Water Workout Copy",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/waterWorkouts/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"waterWorkouts",
 										"1"
 									]
 								}
@@ -69,6 +259,276 @@
 									"port": "8080",
 									"path": [
 										"athletes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Boat",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"shell\": 1,\n    \"seat8\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/boats",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"boats"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create WaterWorkout",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment')",
+											"pm.globals.set(\"date\", moment().format(\"YYYY-MM-DD\"))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"date\": \"{{date}}\",\n    \"boat\": 2,\n    \"assigned_workout\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/waterWorkouts",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"waterWorkouts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Template Workout",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment')",
+											"pm.globals.set(\"date\", moment().format(\"YYYY-MM-DD\"))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"date\": \"{{date}}\",\n    \"name\": \"A template workout\",\n    \"team\": null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/templateWorkouts",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"templateWorkouts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Erg Workout",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment')",
+											"pm.globals.set(\"date\", moment().format(\"YYYY-MM-DD\"))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"date\": \"{{date}}\",\n    \"athlete\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/ergWorkouts",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ergWorkouts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Erg Split",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ergWorkout\": 1,\n    \"seq\": \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/competitionLevels",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"competitionLevels"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Boat Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"shell\": 1,\n    \"seat8\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/boats",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"boats"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Assigned Workout",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment')",
+											"pm.globals.set(\"date\", moment().format(\"YYYY-MM-DD\"))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"date\": \"{{date}}\",\n    \"name\": \"An assigned workout\",\n    \"templateWorkout\": 1,\n    \"team\": null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/assignedWorkouts",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"assignedWorkouts"
 									]
 								}
 							},
@@ -168,7 +628,177 @@
 				},
 				{
 					"name": "CREATE",
-					"item": []
+					"item": [
+						{
+							"name": "Add Split Water",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"workoutId\": 1,\n    \"athleteId\": 1,\n    \"duration\": 100,\n    \"distance\": 1000,\n    \"heartRate\": 135,\n    \"power\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/workouts/water/addSplit",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workouts",
+										"water",
+										"addSplit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Split Erg",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"workoutId\": 1,\n    \"athleteId\": 1,\n    \"duration\": 100,\n    \"distance\": 1000,\n    \"heartRate\": 135,\n    \"power\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/workouts/erg/addSplit",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workouts",
+										"erg",
+										"addSplit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Split Template",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"workoutId\": 1,\n    \"duration\": 100,\n    \"distance\": 1000\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/workouts/template/addSplit",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workouts",
+										"template",
+										"addSplit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Assign To Erg Workout",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment')",
+											"pm.globals.set(\"date\", moment().format(\"YYYY-MM-DD\"))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"assignedWorkoutId\": 2,\n    \"athleteId\": 1,\n    \"date\": \"{{date}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/workouts/assignment/toErgWorkout",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workouts",
+										"assignment",
+										"toErgWorkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Assign To Water Workout",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment')",
+											"pm.globals.set(\"date\", moment().format(\"YYYY-MM-DD\"))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"assignedWorkoutId\": 2,\n    \"boatId\": 2,\n    \"date\": \"{{date}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/workouts/assignment/toWaterWorkout",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workouts",
+										"assignment",
+										"toWaterWorkout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
