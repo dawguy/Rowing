@@ -27,7 +27,9 @@ public class TemplateWorkout implements Workout<TemplateSplit> {
   @Column(name = "team")
   private Long team;
 
-  @OneToMany(mappedBy = "templateWorkout")
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "template_workout", nullable = false)
+  @OrderBy("seq")
   private List<TemplateSplit> templateSplits = new ArrayList<>();
 
   public Long getWorkout() {

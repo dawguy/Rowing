@@ -16,15 +16,16 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WaterSplit implements Split {
+public class WaterSplit implements Split<WaterWorkout> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonIgnoreProperties(ignoreUnknown = true)
   @Column(name = "water_split")
   private Long waterSplit;
 
-  @Column(name = "water_workout")
-  private Long waterWorkout;
+  @ManyToOne()
+  @JoinColumn(name = "water_workout", insertable = false, updatable = false)
+  private WaterWorkout waterWorkout;
 
   @Column(name = "seq")
   private Long seq;
@@ -53,11 +54,11 @@ public class WaterSplit implements Split {
     this.waterSplit = waterSplit;
   }
 
-  public Long getWaterWorkout() {
+  public WaterWorkout getWaterWorkout() {
     return this.waterWorkout;
   }
 
-  public void setWaterWorkout(Long waterWorkout) {
+  public void setWaterWorkout(WaterWorkout waterWorkout) {
     this.waterWorkout = waterWorkout;
   }
 
@@ -123,11 +124,11 @@ public class WaterSplit implements Split {
             .orElse(0.0);
   }
 
-  public Long getWorkout() {
+  public WaterWorkout getWorkout() {
     return getWaterWorkout();
   }
 
-  public void setWorkout(Long workout) {
+  public void setWorkout(WaterWorkout workout) {
     setWaterWorkout(workout);
   }
 }

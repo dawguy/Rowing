@@ -13,15 +13,16 @@ import java.sql.Timestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ErgSplit implements Split {
+public class ErgSplit implements Split<ErgWorkout> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonIgnoreProperties(ignoreUnknown = true)
   @Column(name = "erg_split")
   private Long ergSplit;
 
-  @Column(name = "erg_workout")
-  private Long ergWorkout;
+  @ManyToOne()
+  @JoinColumn(name = "erg_workout", insertable = false, updatable = false)
+  private ErgWorkout ergWorkout;
 
   @Column(name = "seq")
   private Long seq;
@@ -46,11 +47,11 @@ public class ErgSplit implements Split {
     this.ergSplit = ergSplit;
   }
 
-  public Long getErgWorkout() {
+  public ErgWorkout getErgWorkout() {
     return this.ergWorkout;
   }
 
-  public void setErgWorkout(Long ergWorkout) {
+  public void setErgWorkout(ErgWorkout ergWorkout) {
     this.ergWorkout = ergWorkout;
   }
 
@@ -94,11 +95,11 @@ public class ErgSplit implements Split {
     this.power = power;
   }
 
-  public Long getWorkout() {
+  public ErgWorkout getWorkout() {
     return getErgWorkout();
   }
 
-  public void setWorkout(Long workout) {
+  public void setWorkout(ErgWorkout workout) {
     setErgWorkout(workout);
   }
 }

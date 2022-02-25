@@ -1,18 +1,13 @@
 package com.roweatrow.server.workouts;
 
 import com.roweatrow.server.dtos.AddSplit;
+import com.roweatrow.server.dtos.ErgAssignmentDTO;
+import com.roweatrow.server.dtos.WaterAssignmentDTO;
 import com.roweatrow.server.models.*;
-import com.roweatrow.server.respository.ErgWorkoutRepository;
-import com.roweatrow.server.respository.TemplateWorkoutRepository;
-import com.roweatrow.server.respository.WaterWorkoutAthleteSplitRepository;
-import com.roweatrow.server.respository.WaterWorkoutRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.roweatrow.server.respository.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +19,9 @@ public class WorkoutsController {
   private final TemplateWorkoutRepository templateWorkoutRepository;
   private final WorkoutService workoutService;
   private final WorkoutSplitsService workoutSplitsService;
-  private final WaterWorkoutAthleteSplitRepository waterWorkoutAthleteSplitRepository;
+  private final BoatRepository boatRepository;
+  private final AssignedWorkoutRepository assignedWorkoutRepository;
+
 
   public WorkoutsController(
       WaterWorkoutRepository waterWorkoutRepository,
@@ -32,13 +29,15 @@ public class WorkoutsController {
       WorkoutService workoutService,
       WorkoutSplitsService workoutSplitsService,
       TemplateWorkoutRepository templateWorkoutRepository,
-      WaterWorkoutAthleteSplitRepository waterWorkoutAthleteSplitRepository) {
+      AssignedWorkoutRepository assignedWorkoutRepository,
+      BoatRepository boatRepository) {
     this.waterWorkoutRepository = waterWorkoutRepository;
     this.ergWorkoutRepository = ergWorkoutRepository;
     this.workoutService = workoutService;
     this.workoutSplitsService = workoutSplitsService;
     this.templateWorkoutRepository = templateWorkoutRepository;
-    this.waterWorkoutAthleteSplitRepository = waterWorkoutAthleteSplitRepository;
+    this.boatRepository = boatRepository;
+    this.assignedWorkoutRepository = assignedWorkoutRepository;
   }
 
   @GetMapping(value = "/water/{workoutId}")
@@ -128,5 +127,29 @@ public class WorkoutsController {
             .build();
     workoutSplitsService.addSplit(w, templateSplit);
     return templateWorkoutRepository.findById(addSplit.getWorkoutId()).orElse(null);
+  }
+
+  @PostMapping(value = "/assignment/toErgWorkout")
+  public @ResponseBody ErgWorkout assignToErgWorkout(@RequestBody ErgAssignmentDTO ergAssignmentDTO) {
+    Optional<AssignedWorkout> oWorkout = assignedWorkoutRepository.findById(ergAssignmentDTO.getAssignedWorkoutId());
+    if (oWorkout.isEmpty()) {
+      return null;
+    }
+
+    AssignedWorkout w = oWorkout.get();
+    return workoutSplitsService.assignAsErgWorkout(w, ergAssignmentDTO.getAthleteId(), ergAssignmentDTO.getDate());
+  }
+
+  @PostMapping(value = "/assignment/toWaterWorkout")
+  public @ResponseBody WaterWorkout assignToErgWorkout(@RequestBody WaterAssignmentDTO waterAssignmentDTO) {
+    Optional<AssignedWorkout> oWorkout = assignedWorkoutRepository.findById(waterAssignmentDTO.getAssignedWorkoutId());
+    Optional<Boat> oBoat = boatRepository.findById(waterAssignmentDTO.getBoatId());
+    if (oWorkout.isEmpty() || oBoat.isEmpty()) {
+      return null;
+    }
+
+    AssignedWorkout w = oWorkout.get();
+    Boat b = oBoat.get();
+    return workoutSplitsService.assignAsWaterWorkout(w, b, waterAssignmentDTO.getDate());
   }
 }

@@ -13,15 +13,16 @@ import java.sql.Timestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TemplateSplit implements Split {
+public class TemplateSplit implements Split<TemplateWorkout> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonIgnoreProperties(ignoreUnknown = true)
   @Column(name = "template_split")
   private Long templateSplit;
 
-  @Column(name = "template_workout")
-  private Long templateWorkout;
+  @ManyToOne()
+  @JoinColumn(name = "template_workout", insertable = false, updatable = false)
+  private TemplateWorkout templateWorkout;
 
   @Column(name = "seq")
   private Long seq;
@@ -40,11 +41,11 @@ public class TemplateSplit implements Split {
     this.templateSplit = templateSplit;
   }
 
-  public Long getTemplateWorkout() {
+  public TemplateWorkout getTemplateWorkout() {
     return this.templateWorkout;
   }
 
-  public void setTemplateWorkout(Long templateWorkout) {
+  public void setTemplateWorkout(TemplateWorkout templateWorkout) {
     this.templateWorkout = templateWorkout;
   }
 
@@ -72,11 +73,11 @@ public class TemplateSplit implements Split {
     this.distance = distance;
   }
 
-  public Long getWorkout() {
+  public TemplateWorkout getWorkout() {
     return getTemplateWorkout();
   }
 
-  public void setWorkout(Long workout) {
+  public void setWorkout(TemplateWorkout workout) {
     setTemplateWorkout(workout);
   }
 }

@@ -2,7 +2,7 @@ package com.roweatrow.server.models;
 
 import java.sql.Timestamp;
 
-public interface Split {
+public interface Split<WorkoutType> {
   Timestamp getDuration();
 
   Long getDistance();
@@ -19,7 +19,7 @@ public interface Split {
 
   void setSeq(Long seq);
 
-  Long getWorkout();
+  WorkoutType getWorkout();
 
-  void setWorkout(Long workout);
+  void setWorkout(WorkoutType workout);
 }

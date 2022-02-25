@@ -20,7 +20,6 @@ public class WorkoutSplitsService {
     this.splitRepository = splitRepository;
   }
 
-  // TODO: Determine if Workout's getSplits needs to be updated.
   public <T extends Split> List<T> addSplit(Workout<T> w, T split) {
     List<T> splits = w.getSplits();
     long seq = 0;
@@ -38,7 +37,6 @@ public class WorkoutSplitsService {
     return splits;
   }
 
-  // TODO: Determine if Workout's getSplits needs to be updated.
   public <T extends Split> List<T> updateSeq(Workout<T> w, T split, Long newSeq) {
     List<T> splits = w.getSplits();
     // TODO: Realistically seq should be an int.
@@ -68,7 +66,7 @@ public class WorkoutSplitsService {
     return shiftedSplits;
   }
 
-  public TemplateWorkout cloneWorkoutSplitsToTemplateSplits(Workout<? extends Split> w, Long team) {
+  public TemplateWorkout createTemplateWorkoutFromSplits(Workout<? extends Split> w, Long team) {
     List<? extends Split> splits = w.getSplits();
     List<TemplateSplit> templateSplits =
         splits.stream()
@@ -88,48 +86,35 @@ public class WorkoutSplitsService {
             .templateSplits(templateSplits)
             .build();
 
-    TemplateWorkout savedWorkout = workoutRepository.save(templateWorkout);
-    // TODO: Test if the templateSplits were auto created.
-
-    return savedWorkout;
+    return workoutRepository.save(templateWorkout);
   }
 
-  public List<ErgSplit> assignAsErgSplits(AssignedWorkout w, Athlete a, Date date) {
+  public ErgWorkout assignAsErgWorkout(AssignedWorkout w, Long athleteId, Date date) {
     List<? extends Split> splits = w.getSplits();
-    ErgWorkout ergWorkout =
-        ErgWorkout.builder().assignedWorkout(w.getAssignedWorkout()).date(date).build();
-    ErgWorkout savedWaterWorkout = workoutRepository.save(ergWorkout);
-
     List<ErgSplit> ergSplits =
         splits.stream()
             .map(
                 s ->
                     ErgSplit.builder()
-                        .ergWorkout(savedWaterWorkout.getErgWorkout())
                         .duration(s.getDuration())
                         .distance(s.getDistance())
                         .seq(s.getSeq())
                         .build())
             .collect(Collectors.toList());
 
-    for (ErgSplit es : ergSplits) {
-      splitRepository.save(es);
-    }
-
-    return ergSplits;
+    ErgWorkout ergWorkout =
+        ErgWorkout.builder()
+            .assignedWorkout(w.getAssignedWorkout())
+            .athlete(athleteId)
+            .date(date)
+            .ergSplits(ergSplits)
+            .build();
+    return workoutRepository.save(ergWorkout);
   }
 
-  public List<WaterSplit> assignAsWaterSplits(AssignedWorkout w, Boat b, Date date) {
+  public WaterWorkout assignAsWaterWorkout(AssignedWorkout w, Boat b, Date date) {
     List<? extends Split> splits = w.getSplits();
     List<Long> athletes = b.getAthletes();
-    WaterWorkout waterWorkout =
-        WaterWorkout.builder()
-            .assignedWorkout(w.getAssignedWorkout())
-            .boat(b.getBoat())
-            .date(date)
-            .build();
-    WaterWorkout savedWaterWorkout = workoutRepository.save(waterWorkout);
-
     List<WaterSplit> waterSplits =
         splits.stream()
             .map(
@@ -139,7 +124,6 @@ public class WorkoutSplitsService {
                           .map(a -> WaterWorkoutAthleteSplit.builder().athlete(a).build())
                           .collect(Collectors.toList());
                   return WaterSplit.builder()
-                      .waterWorkout(savedWaterWorkout.getWaterWorkout())
                       .duration(s.getDuration())
                       .distance(s.getDistance())
                       .seq(s.getSeq())
@@ -148,10 +132,13 @@ public class WorkoutSplitsService {
                 })
             .collect(Collectors.toList());
 
-    for (WaterSplit ws : waterSplits) {
-      splitRepository.save(ws);
-    }
-
-    return waterSplits;
+    WaterWorkout waterWorkout =
+        WaterWorkout.builder()
+            .assignedWorkout(w.getAssignedWorkout())
+            .boat(b.getBoat())
+            .waterSplits(waterSplits)
+            .date(date)
+            .build();
+    return workoutRepository.save(waterWorkout);
   }
 }

@@ -30,7 +30,9 @@ public class WaterWorkout implements Workout<WaterSplit> {
   @Column(name = "assigned_workout")
   private Long assignedWorkout;
 
-  @OneToMany(mappedBy = "waterWorkout")
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "water_workout", nullable = false)
+  @OrderBy("seq")
   private List<WaterSplit> waterSplits = new ArrayList<>();
 
   public Long getWorkout() {

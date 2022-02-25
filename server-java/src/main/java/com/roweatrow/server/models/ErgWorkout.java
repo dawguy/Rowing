@@ -30,7 +30,9 @@ public class ErgWorkout implements Workout<ErgSplit> {
   @Column(name = "assigned_workout")
   private Long assignedWorkout;
 
-  @OneToMany(mappedBy = "ergWorkout")
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "erg_workout", nullable = false)
+  @OrderBy("seq")
   private List<ErgSplit> ergSplits = new ArrayList<>();
 
   public Long getWorkout() {
