@@ -1,6 +1,7 @@
 package com.roweatrow.server.workouts;
 
 import com.roweatrow.server.dtos.AddSplit;
+import com.roweatrow.server.dtos.CloneToTemplateDTO;
 import com.roweatrow.server.dtos.ErgAssignmentDTO;
 import com.roweatrow.server.dtos.WaterAssignmentDTO;
 import com.roweatrow.server.models.*;
@@ -8,6 +9,7 @@ import com.roweatrow.server.respository.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
 
@@ -151,5 +153,29 @@ public class WorkoutsController {
     AssignedWorkout w = oWorkout.get();
     Boat b = oBoat.get();
     return workoutSplitsService.assignAsWaterWorkout(w, b, waterAssignmentDTO.getDate());
+  }
+
+  @PostMapping(value = "/clone/erg/toTemplateWorkout")
+  public @ResponseBody TemplateWorkout cloneErgToTemplateWorkout(@RequestBody CloneToTemplateDTO cloneToTemplateDTO){
+    Optional<ErgWorkout> oErgWorkout = ergWorkoutRepository.findById(cloneToTemplateDTO.getWorkoutId());
+
+    if(oErgWorkout.isEmpty()) {
+      return null;
+    }
+    ErgWorkout ergWorkout = oErgWorkout.get();
+
+    return workoutSplitsService.createTemplateWorkoutFromSplits(ergWorkout, cloneToTemplateDTO.getTeam());
+  }
+
+  @PostMapping(value = "/clone/water/toTemplateWorkout")
+  public @ResponseBody TemplateWorkout cloneWaterToTemplateWorkout(@RequestBody CloneToTemplateDTO cloneToTemplateDTO){
+    Optional<WaterWorkout> oWaterWorkout = waterWorkoutRepository.findById(cloneToTemplateDTO.getWorkoutId());
+
+    if(oWaterWorkout.isEmpty()) {
+      return null;
+    }
+    WaterWorkout waterWorkout = oWaterWorkout.get();
+
+    return workoutSplitsService.createTemplateWorkoutFromSplits(waterWorkout, cloneToTemplateDTO.getTeam());
   }
 }

@@ -1,6 +1,8 @@
 package com.roweatrow.server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -14,10 +16,10 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ErgWorkout implements Workout<ErgSplit> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @JsonIgnoreProperties(ignoreUnknown = true)
   @Column(name = "erg_workout")
   private Long ergWorkout;
 
@@ -30,8 +32,8 @@ public class ErgWorkout implements Workout<ErgSplit> {
   @Column(name = "assigned_workout")
   private Long assignedWorkout;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "erg_workout", nullable = false)
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "erg_workout")
   @OrderBy("seq")
   private List<ErgSplit> ergSplits = new ArrayList<>();
 

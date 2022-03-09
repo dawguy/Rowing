@@ -1,5 +1,7 @@
 package com.roweatrow.server.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +15,10 @@ import java.sql.Timestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"ergWorkout", "workout"})
 public class ErgSplit implements Split<ErgWorkout> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @JsonIgnoreProperties(ignoreUnknown = true)
   @Column(name = "erg_split")
   private Long ergSplit;
 

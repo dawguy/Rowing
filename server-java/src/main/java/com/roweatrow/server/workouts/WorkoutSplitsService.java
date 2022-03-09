@@ -25,12 +25,12 @@ public class WorkoutSplitsService {
     long seq = 0;
 
     if (!splits.isEmpty()) {
-      Split finalSplit = splits.get(splits.size() - 1);
+      T finalSplit = splits.get(splits.size() - 1);
       seq = finalSplit.getSeq() + 1;
     }
 
     split.setSeq(seq);
-    split.setWorkout(w.getWorkout());
+    split.setWorkout(w);
     splitRepository.save(split);
 
     splits.add(split);
@@ -66,7 +66,7 @@ public class WorkoutSplitsService {
     return shiftedSplits;
   }
 
-  public TemplateWorkout createTemplateWorkoutFromSplits(Workout<? extends Split> w, Long team) {
+  public <T extends Workout> TemplateWorkout createTemplateWorkoutFromSplits(Workout<? extends Split> w, Long team) {
     List<? extends Split> splits = w.getSplits();
     List<TemplateSplit> templateSplits =
         splits.stream()
@@ -90,7 +90,7 @@ public class WorkoutSplitsService {
   }
 
   public ErgWorkout assignAsErgWorkout(AssignedWorkout w, Long athleteId, Date date) {
-    List<? extends Split> splits = w.getSplits();
+    List<TemplateSplit> splits = w.getSplits();
     List<ErgSplit> ergSplits =
         splits.stream()
             .map(
@@ -113,7 +113,7 @@ public class WorkoutSplitsService {
   }
 
   public WaterWorkout assignAsWaterWorkout(AssignedWorkout w, Boat b, Date date) {
-    List<? extends Split> splits = w.getSplits();
+    List<TemplateSplit> splits = w.getSplits();
     List<Long> athletes = b.getAthletes();
     List<WaterSplit> waterSplits =
         splits.stream()

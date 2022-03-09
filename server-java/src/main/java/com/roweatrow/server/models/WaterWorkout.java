@@ -1,5 +1,6 @@
 package com.roweatrow.server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,8 +31,8 @@ public class WaterWorkout implements Workout<WaterSplit> {
   @Column(name = "assigned_workout")
   private Long assignedWorkout;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "water_workout", nullable = false)
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "water_workout")
   @OrderBy("seq")
   private List<WaterSplit> waterSplits = new ArrayList<>();
 

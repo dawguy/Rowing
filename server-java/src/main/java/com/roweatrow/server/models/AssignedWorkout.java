@@ -13,10 +13,10 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AssignedWorkout implements Workout<TemplateSplit> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @JsonIgnoreProperties(ignoreUnknown = true)
   @Column(name = "assigned_workout")
   private Long assignedWorkout;
 
@@ -29,8 +29,8 @@ public class AssignedWorkout implements Workout<TemplateSplit> {
   @Column(name = "team")
   private Long team;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "template_workout")
+  @ManyToOne()
+  @JoinColumn(name = "template_workout", insertable = false, updatable = false)
   private TemplateWorkout templateWorkout;
 
   public Long getAssignedWorkout() {

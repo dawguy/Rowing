@@ -1,5 +1,7 @@
 package com.roweatrow.server.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,14 +18,14 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"waterWorkout", "workout"})
 public class WaterSplit implements Split<WaterWorkout> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @JsonIgnoreProperties(ignoreUnknown = true)
   @Column(name = "water_split")
   private Long waterSplit;
 
-  @ManyToOne()
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "water_workout", insertable = false, updatable = false)
   private WaterWorkout waterWorkout;
 
@@ -42,8 +44,8 @@ public class WaterSplit implements Split<WaterWorkout> {
   @Column(name = "flow_rate")
   private Long flowRate;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "water_split", nullable = false)
+  @OneToMany(mappedBy = "waterSplit", cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonIgnore
   private List<WaterWorkoutAthleteSplit> waterWorkoutAthleteSplit = new ArrayList<>();
 
   public Long getWaterSplit() {

@@ -1,5 +1,6 @@
 package com.roweatrow.server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,10 +15,10 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"templateWorkouts.splits"})
 public class TemplateWorkout implements Workout<TemplateSplit> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @JsonIgnoreProperties(ignoreUnknown = true)
   @Column(name = "template_workout")
   private Long templateWorkout;
 
@@ -27,10 +28,13 @@ public class TemplateWorkout implements Workout<TemplateSplit> {
   @Column(name = "team")
   private Long team;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "template_workout", nullable = false)
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "template_workout")
   @OrderBy("seq")
   private List<TemplateSplit> templateSplits = new ArrayList<>();
+
+  @OneToMany(mappedBy = "templateWorkout", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<AssignedWorkout> assignedWorkouts = new ArrayList<>();
 
   public Long getWorkout() {
     return this.templateWorkout;
