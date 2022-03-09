@@ -21,8 +21,8 @@ public class TemplateSplit implements Split<TemplateWorkout> {
   @Column(name = "template_split")
   private Long templateSplit;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "template_workout", insertable = false, updatable = false)
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name = "template_workout")
   private TemplateWorkout templateWorkout;
 
   @Column(name = "seq")

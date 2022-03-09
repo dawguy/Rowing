@@ -127,7 +127,7 @@ public class WorkoutSplitsService {
                       .duration(s.getDuration())
                       .distance(s.getDistance())
                       .seq(s.getSeq())
-                      .waterWorkoutAthleteSplit(waterWorkoutAthleteSplits)
+                      .waterWorkoutAthleteSplits(waterWorkoutAthleteSplits)
                       .build();
                 })
             .collect(Collectors.toList());

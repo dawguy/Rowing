@@ -9,7 +9,6 @@ import com.roweatrow.server.respository.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,7 +85,7 @@ public class WorkoutsController {
             .duration(addSplit.getDuration())
             .flowRate(addSplit.getFlowRate())
             .withFlow(addSplit.getWithFlow())
-            .waterWorkoutAthleteSplit(List.of(waterWorkoutAthleteSplit))
+            .waterWorkoutAthleteSplits(List.of(waterWorkoutAthleteSplit))
             .build();
     workoutSplitsService.addSplit(w, noAthleteWaterSplit);
     return waterWorkoutRepository.findById(addSplit.getWorkoutId()).orElse(null);

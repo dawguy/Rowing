@@ -1,7 +1,5 @@
 package com.roweatrow.server.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,8 +23,8 @@ public class WaterSplit implements Split<WaterWorkout> {
   @Column(name = "water_split")
   private Long waterSplit;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "water_workout", insertable = false, updatable = false)
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name = "water_workout")
   private WaterWorkout waterWorkout;
 
   @Column(name = "seq")
@@ -45,8 +43,15 @@ public class WaterSplit implements Split<WaterWorkout> {
   private Long flowRate;
 
   @OneToMany(mappedBy = "waterSplit", cascade = CascadeType.ALL, orphanRemoval = true)
-  @JsonIgnore
-  private List<WaterWorkoutAthleteSplit> waterWorkoutAthleteSplit = new ArrayList<>();
+  private List<WaterWorkoutAthleteSplit> waterWorkoutAthleteSplits = new ArrayList<>();
+
+  // https://stackoverflow.com/questions/9533676/jpa-onetomany-parent-child-reference-foreign-key
+  @PrePersist
+  private void prePersist() {
+    if (waterWorkoutAthleteSplits != null) {
+      waterWorkoutAthleteSplits.forEach(s -> s.setWaterSplit(this));
+    }
+  }
 
   public Long getWaterSplit() {
     return this.waterSplit;
@@ -107,7 +112,7 @@ public class WaterSplit implements Split<WaterWorkout> {
   @Override
   public Long getHeartRate() {
     return (long)
-        this.waterWorkoutAthleteSplit.stream()
+        this.waterWorkoutAthleteSplits.stream()
             .map(WaterWorkoutAthleteSplit::getHeartRate)
             .filter(Objects::nonNull) // Just ignore missing data. Don't treat as 0.
             .mapToDouble(d -> (double) d)
@@ -118,7 +123,7 @@ public class WaterSplit implements Split<WaterWorkout> {
   @Override
   public Long getPower() {
     return (long)
-        this.waterWorkoutAthleteSplit.stream()
+        this.waterWorkoutAthleteSplits.stream()
             .map(WaterWorkoutAthleteSplit::getPower)
             .filter(Objects::nonNull) // Just ignore missing data. Don't treat as 0.
             .mapToDouble(d -> (double) d)
@@ -132,5 +137,14 @@ public class WaterSplit implements Split<WaterWorkout> {
 
   public void setWorkout(WaterWorkout workout) {
     setWaterWorkout(workout);
+  }
+
+  // Note: It appears that implementing a getter is all that's needed for a property to appear when serialized.
+  public List<WaterWorkoutAthleteSplit> getWaterWorkoutAthleteSplits() {
+    return waterWorkoutAthleteSplits;
+  }
+
+  public void setWaterWorkoutAthleteSplits(List<WaterWorkoutAthleteSplit> waterWorkoutAthleteSplits){
+    this.waterWorkoutAthleteSplits = waterWorkoutAthleteSplits;
   }
 }

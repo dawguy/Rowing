@@ -15,15 +15,17 @@ import java.sql.Timestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true, value = {"ergWorkout", "workout"})
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"erg_workout", "ergWorkout", "workout"})
 public class ErgSplit implements Split<ErgWorkout> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "erg_split")
   private Long ergSplit;
 
-  @ManyToOne()
-  @JoinColumn(name = "erg_workout", insertable = false, updatable = false)
+  // Note: https://stackoverflow.com/questions/10551485/hibernate-cascade-type
+  // Cascade type is needed in both Parent and Child.
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name = "erg_workout")
   private ErgWorkout ergWorkout;
 
   @Column(name = "seq")

@@ -29,8 +29,8 @@ public class WaterWorkoutAthleteSplit {
   @Column(name = "power")
   private Long power;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "water_split", insertable = false, updatable = false)
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name = "water_split")
   private WaterSplit waterSplit;
 
   public Long getWaterWorkoutAthleteSplit() {

@@ -5,7 +5,7 @@ import spock.lang.Specification
 class WaterSplitTest extends Specification {
     def "GetHeartRate"() {
         expect:
-        WaterSplit waterSplit = new WaterSplit(waterWorkoutAthleteSplit: athleteSplits)
+        WaterSplit waterSplit = new WaterSplit(waterWorkoutAthleteSplits: athleteSplits)
         expected == waterSplit.getHeartRate()
 
         where:
@@ -18,7 +18,7 @@ class WaterSplitTest extends Specification {
 
     def "GetPower"(WaterWorkoutAthleteSplit[] athleteSplits, Long expected) {
         expect:
-        WaterSplit waterSplit = new WaterSplit(waterWorkoutAthleteSplit: athleteSplits)
+        WaterSplit waterSplit = new WaterSplit(waterWorkoutAthleteSplits: athleteSplits)
         expected == waterSplit.getPower()
 
         where:

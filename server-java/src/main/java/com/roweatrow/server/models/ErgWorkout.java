@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true, value = {})
 public class ErgWorkout implements Workout<ErgSplit> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,10 +32,17 @@ public class ErgWorkout implements Workout<ErgSplit> {
   @Column(name = "assigned_workout")
   private Long assignedWorkout;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "erg_workout")
+  @OneToMany(mappedBy = "ergWorkout", cascade = CascadeType.ALL, orphanRemoval = true)
   @OrderBy("seq")
   private List<ErgSplit> ergSplits = new ArrayList<>();
+
+  // https://stackoverflow.com/questions/9533676/jpa-onetomany-parent-child-reference-foreign-key
+  @PrePersist
+  private void prePersist() {
+    if (ergSplits != null) {
+      ergSplits.forEach(s -> s.setErgWorkout(this));
+    }
+  }
 
   public Long getWorkout() {
     return this.ergWorkout;

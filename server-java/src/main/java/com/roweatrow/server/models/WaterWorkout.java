@@ -31,10 +31,17 @@ public class WaterWorkout implements Workout<WaterSplit> {
   @Column(name = "assigned_workout")
   private Long assignedWorkout;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "water_workout")
+  @OneToMany(mappedBy = "waterWorkout", cascade = CascadeType.ALL, orphanRemoval = true)
   @OrderBy("seq")
   private List<WaterSplit> waterSplits = new ArrayList<>();
+
+  // https://stackoverflow.com/questions/9533676/jpa-onetomany-parent-child-reference-foreign-key
+  @PrePersist
+  private void prePersist() {
+    if (waterSplits != null) {
+      waterSplits.forEach(s -> s.setWaterWorkout(this));
+    }
+  }
 
   public Long getWorkout() {
     return this.waterWorkout;

@@ -28,13 +28,23 @@ public class TemplateWorkout implements Workout<TemplateSplit> {
   @Column(name = "team")
   private Long team;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "template_workout")
+  @OneToMany(mappedBy = "templateWorkout", cascade = CascadeType.ALL, orphanRemoval = true)
   @OrderBy("seq")
   private List<TemplateSplit> templateSplits = new ArrayList<>();
 
   @OneToMany(mappedBy = "templateWorkout", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<AssignedWorkout> assignedWorkouts = new ArrayList<>();
+
+  // https://stackoverflow.com/questions/9533676/jpa-onetomany-parent-child-reference-foreign-key
+  @PrePersist
+  private void prePersist() {
+    if (templateSplits != null) {
+      templateSplits.forEach(s -> s.setTemplateWorkout(this));
+    }
+    if (assignedWorkouts != null) {
+      assignedWorkouts.forEach(aw -> aw.setTemplateWorkout(this));
+    }
+  }
 
   public Long getWorkout() {
     return this.templateWorkout;
