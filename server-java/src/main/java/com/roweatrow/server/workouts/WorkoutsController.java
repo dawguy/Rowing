@@ -1,16 +1,17 @@
 package com.roweatrow.server.workouts;
 
-import com.roweatrow.server.dtos.AddSplit;
-import com.roweatrow.server.dtos.CloneToTemplateDTO;
-import com.roweatrow.server.dtos.ErgAssignmentDTO;
-import com.roweatrow.server.dtos.WaterAssignmentDTO;
+import com.roweatrow.server.dtos.*;
 import com.roweatrow.server.models.*;
 import com.roweatrow.server.respository.*;
+import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/workouts")
@@ -18,11 +19,12 @@ public class WorkoutsController {
   private final WaterWorkoutRepository waterWorkoutRepository;
   private final ErgWorkoutRepository ergWorkoutRepository;
   private final TemplateWorkoutRepository templateWorkoutRepository;
+  private final WaterSplitRepository waterSplitRepository;
   private final WorkoutService workoutService;
   private final WorkoutSplitsService workoutSplitsService;
   private final BoatRepository boatRepository;
   private final AssignedWorkoutRepository assignedWorkoutRepository;
-
+  private static final Logger log = LoggerFactory.getLogger(WorkoutsController.class);
 
   public WorkoutsController(
       WaterWorkoutRepository waterWorkoutRepository,
@@ -30,6 +32,7 @@ public class WorkoutsController {
       WorkoutService workoutService,
       WorkoutSplitsService workoutSplitsService,
       TemplateWorkoutRepository templateWorkoutRepository,
+      WaterSplitRepository waterSplitRepository,
       AssignedWorkoutRepository assignedWorkoutRepository,
       BoatRepository boatRepository) {
     this.waterWorkoutRepository = waterWorkoutRepository;
@@ -37,6 +40,7 @@ public class WorkoutsController {
     this.workoutService = workoutService;
     this.workoutSplitsService = workoutSplitsService;
     this.templateWorkoutRepository = templateWorkoutRepository;
+    this.waterSplitRepository = waterSplitRepository;
     this.boatRepository = boatRepository;
     this.assignedWorkoutRepository = assignedWorkoutRepository;
   }
@@ -64,7 +68,7 @@ public class WorkoutsController {
   }
 
   @PostMapping(value = "/water/addSplit")
-  public @ResponseBody WaterWorkout addWaterSplit(@RequestBody AddSplit addSplit) {
+  public @ResponseBody WaterWorkout addWaterSplit(@RequestBody AddWaterSplit addSplit) {
     Optional<WaterWorkout> oWorkout = waterWorkoutRepository.findById(addSplit.getWorkoutId());
 
     if (oWorkout.isEmpty()) {
@@ -72,23 +76,39 @@ public class WorkoutsController {
     }
 
     WaterWorkout w = oWorkout.get();
-    WaterWorkoutAthleteSplit waterWorkoutAthleteSplit =
-        WaterWorkoutAthleteSplit.builder()
-            .athlete(addSplit.getAthleteId())
-            .heartRate(addSplit.getHeartRate())
-            .power(addSplit.getPower())
-            .build();
-
     WaterSplit noAthleteWaterSplit =
         WaterSplit.builder()
             .distance(addSplit.getDistance())
             .duration(addSplit.getDuration())
             .flowRate(addSplit.getFlowRate())
             .withFlow(addSplit.getWithFlow())
-            .waterWorkoutAthleteSplits(List.of(waterWorkoutAthleteSplit))
             .build();
     workoutSplitsService.addSplit(w, noAthleteWaterSplit);
     return waterWorkoutRepository.findById(addSplit.getWorkoutId()).orElse(null);
+  }
+
+  @PostMapping(value = "/water/split/addAthlete")
+  public @ResponseBody WaterSplit addAthleteToWaterSplit(@RequestBody AddWaterWorkoutAthleteSplit addSplit) {
+    Optional<WaterSplit> oSplit = waterSplitRepository.findById(addSplit.getSplitId());
+    if (oSplit.isEmpty()) {
+      return null;
+    }
+    WaterSplit split = oSplit.get();
+    WaterWorkout waterWorkout= workoutService.getWaterWorkoutBySplit(split);
+    List<WaterSplit> splits = waterWorkout.getSplits().stream().filter(s -> s.getWaterSplit() == addSplit.getSplitId()).collect(Collectors.toList());
+    WaterSplit foundSplit = splits.get(0);
+
+    WaterWorkoutAthleteSplit waterWorkoutAthleteSplit =
+        WaterWorkoutAthleteSplit.builder()
+            .waterSplit(foundSplit)
+            .athlete(addSplit.getAthleteId())
+            .heartRate(addSplit.getHeartRate())
+            .power(addSplit.getPower())
+            .build();
+    workoutSplitsService.addAthleteToWaterSplit(foundSplit, waterWorkoutAthleteSplit);
+    waterWorkoutRepository.save(waterWorkout);
+
+    return foundSplit;
   }
 
   @PostMapping(value = "/erg/addSplit")

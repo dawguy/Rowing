@@ -1,8 +1,6 @@
 package com.roweatrow.server.workouts;
 
-import com.roweatrow.server.models.Boat;
-import com.roweatrow.server.models.Split;
-import com.roweatrow.server.models.Workout;
+import com.roweatrow.server.models.*;
 import com.roweatrow.server.respository.BoatRepository;
 import com.roweatrow.server.respository.ErgWorkoutRepository;
 import com.roweatrow.server.respository.WaterWorkoutRepository;
@@ -51,6 +49,14 @@ public class WorkoutService {
 
   public List<? extends Workout> getWorkoutsByBoat(long boatId) {
     return waterWorkoutRepository.findWaterWorkoutByBoat(boatId);
+  }
+
+  public WaterWorkout getWaterWorkoutBySplit(WaterSplit split){
+    List<WaterWorkout> oWaterWorkout = waterWorkoutRepository.findWaterWorkoutsByWaterSplits(split);
+    if(oWaterWorkout.isEmpty()) {
+      return null;
+    }
+    return oWaterWorkout.get(0);
   }
 
   public List<Boat> getBoatsByAthlete(long athleteId) {

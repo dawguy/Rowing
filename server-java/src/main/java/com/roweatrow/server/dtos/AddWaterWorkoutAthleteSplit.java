@@ -4,16 +4,14 @@ import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Getter
 @Setter
-public class AddSplit {
+public class AddWaterWorkoutAthleteSplit {
+  @NotNull Long splitId;
   @NotNull Long workoutId;
   @NotNull Long athleteId;
-  Timestamp duration;
-  Long distance;
   Long heartRate;
   Long power;
 }

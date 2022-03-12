@@ -43,6 +43,13 @@ public class WaterWorkout implements Workout<WaterSplit> {
     }
   }
 
+  @PreUpdate
+  private void preUpdate() {
+    if (waterSplits != null) {
+      waterSplits.forEach(s -> s.setWaterWorkout(this));
+    }
+  }
+
   public Long getWorkout() {
     return this.waterWorkout;
   }

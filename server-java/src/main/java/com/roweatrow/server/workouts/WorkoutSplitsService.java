@@ -5,7 +5,9 @@ import com.roweatrow.server.respository.*;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,6 +20,16 @@ public class WorkoutSplitsService {
       WorkoutRepository workoutRepository, SplitRepository splitRepository) {
     this.workoutRepository = workoutRepository;
     this.splitRepository = splitRepository;
+  }
+
+  public void addAthleteToWaterSplit(WaterSplit s, WaterWorkoutAthleteSplit was){
+    List<WaterWorkoutAthleteSplit> waterWorkoutAthleteSplits = s.getWaterWorkoutAthleteSplits();
+
+    if(waterWorkoutAthleteSplits == null || waterWorkoutAthleteSplits.isEmpty()){
+      waterWorkoutAthleteSplits = new ArrayList<>();
+    }
+
+    waterWorkoutAthleteSplits.add(was);
   }
 
   public <T extends Split> List<T> addSplit(Workout<T> w, T split) {
