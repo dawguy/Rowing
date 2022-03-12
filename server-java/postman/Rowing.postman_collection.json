@@ -107,18 +107,18 @@
 							"response": []
 						},
 						{
-							"name": "School",
+							"name": "Team",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8080/schools/1",
+									"raw": "localhost:8080/teams/1",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"schools",
+										"teams",
 										"1"
 									]
 								}
@@ -202,18 +202,56 @@
 							"response": []
 						},
 						{
-							"name": "Water Workout Copy",
+							"name": "Assigned Workout",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8080/waterWorkouts/1",
+									"raw": "localhost:8080/assignedWorkouts/2",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"waterWorkouts",
+										"assignedWorkouts",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Template Splits",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/templateSplits/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"templateSplits",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Template Workout",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/templateWorkouts/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"templateWorkouts",
 										"1"
 									]
 								}
@@ -610,7 +648,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8080/workouts/boat/3",
+									"raw": "localhost:8080/workouts/boat/2",
 									"host": [
 										"localhost"
 									],
@@ -618,7 +656,7 @@
 									"path": [
 										"workouts",
 										"boat",
-										"3"
+										"2"
 									]
 								}
 							},
@@ -653,6 +691,36 @@
 										"workouts",
 										"water",
 										"addSplit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Water Athlete Split To Water Spiit",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"splitId\": 1,\n    \"workoutId\": 1,\n    \"athleteId\": 2,\n    \"heartRate\": 155,\n    \"power\": 400\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/workouts/water/split/addAthlete",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workouts",
+										"water",
+										"split",
+										"addAthlete"
 									]
 								}
 							},
@@ -793,6 +861,88 @@
 										"workouts",
 										"assignment",
 										"toWaterWorkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone Erg Workout To Template",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"workoutId\": 1,\n    \"team\": null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/workouts/clone/erg/toTemplateWorkout",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workouts",
+										"clone",
+										"erg",
+										"toTemplateWorkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone Water Workout To Template",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"workoutId\": 1,\n    \"team\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/workouts/clone/water/toTemplateWorkout",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workouts",
+										"clone",
+										"water",
+										"toTemplateWorkout"
 									]
 								}
 							},
