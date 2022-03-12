@@ -51,9 +51,9 @@ public class WorkoutService {
     return waterWorkoutRepository.findWaterWorkoutByBoat(boatId);
   }
 
-  public WaterWorkout getWaterWorkoutBySplit(WaterSplit split){
+  public WaterWorkout getWaterWorkoutBySplit(WaterSplit split) {
     List<WaterWorkout> oWaterWorkout = waterWorkoutRepository.findWaterWorkoutsByWaterSplits(split);
-    if(oWaterWorkout.isEmpty()) {
+    if (oWaterWorkout.isEmpty()) {
       return null;
     }
     return oWaterWorkout.get(0);

@@ -88,14 +88,18 @@ public class WorkoutsController {
   }
 
   @PostMapping(value = "/water/split/addAthlete")
-  public @ResponseBody WaterSplit addAthleteToWaterSplit(@RequestBody AddWaterWorkoutAthleteSplit addSplit) {
+  public @ResponseBody WaterSplit addAthleteToWaterSplit(
+      @RequestBody AddWaterWorkoutAthleteSplit addSplit) {
     Optional<WaterSplit> oSplit = waterSplitRepository.findById(addSplit.getSplitId());
     if (oSplit.isEmpty()) {
       return null;
     }
     WaterSplit split = oSplit.get();
-    WaterWorkout waterWorkout= workoutService.getWaterWorkoutBySplit(split);
-    List<WaterSplit> splits = waterWorkout.getSplits().stream().filter(s -> s.getWaterSplit() == addSplit.getSplitId()).collect(Collectors.toList());
+    WaterWorkout waterWorkout = workoutService.getWaterWorkoutBySplit(split);
+    List<WaterSplit> splits =
+        waterWorkout.getSplits().stream()
+            .filter(s -> s.getWaterSplit() == addSplit.getSplitId())
+            .collect(Collectors.toList());
     WaterSplit foundSplit = splits.get(0);
 
     WaterWorkoutAthleteSplit waterWorkoutAthleteSplit =
@@ -151,19 +155,24 @@ public class WorkoutsController {
   }
 
   @PostMapping(value = "/assignment/toErgWorkout")
-  public @ResponseBody ErgWorkout assignToErgWorkout(@RequestBody ErgAssignmentDTO ergAssignmentDTO) {
-    Optional<AssignedWorkout> oWorkout = assignedWorkoutRepository.findById(ergAssignmentDTO.getAssignedWorkoutId());
+  public @ResponseBody ErgWorkout assignToErgWorkout(
+      @RequestBody ErgAssignmentDTO ergAssignmentDTO) {
+    Optional<AssignedWorkout> oWorkout =
+        assignedWorkoutRepository.findById(ergAssignmentDTO.getAssignedWorkoutId());
     if (oWorkout.isEmpty()) {
       return null;
     }
 
     AssignedWorkout w = oWorkout.get();
-    return workoutSplitsService.assignAsErgWorkout(w, ergAssignmentDTO.getAthleteId(), ergAssignmentDTO.getDate());
+    return workoutSplitsService.assignAsErgWorkout(
+        w, ergAssignmentDTO.getAthleteId(), ergAssignmentDTO.getDate());
   }
 
   @PostMapping(value = "/assignment/toWaterWorkout")
-  public @ResponseBody WaterWorkout assignToErgWorkout(@RequestBody WaterAssignmentDTO waterAssignmentDTO) {
-    Optional<AssignedWorkout> oWorkout = assignedWorkoutRepository.findById(waterAssignmentDTO.getAssignedWorkoutId());
+  public @ResponseBody WaterWorkout assignToErgWorkout(
+      @RequestBody WaterAssignmentDTO waterAssignmentDTO) {
+    Optional<AssignedWorkout> oWorkout =
+        assignedWorkoutRepository.findById(waterAssignmentDTO.getAssignedWorkoutId());
     Optional<Boat> oBoat = boatRepository.findById(waterAssignmentDTO.getBoatId());
     if (oWorkout.isEmpty() || oBoat.isEmpty()) {
       return null;
@@ -175,26 +184,32 @@ public class WorkoutsController {
   }
 
   @PostMapping(value = "/clone/erg/toTemplateWorkout")
-  public @ResponseBody TemplateWorkout cloneErgToTemplateWorkout(@RequestBody CloneToTemplateDTO cloneToTemplateDTO){
-    Optional<ErgWorkout> oErgWorkout = ergWorkoutRepository.findById(cloneToTemplateDTO.getWorkoutId());
+  public @ResponseBody TemplateWorkout cloneErgToTemplateWorkout(
+      @RequestBody CloneToTemplateDTO cloneToTemplateDTO) {
+    Optional<ErgWorkout> oErgWorkout =
+        ergWorkoutRepository.findById(cloneToTemplateDTO.getWorkoutId());
 
-    if(oErgWorkout.isEmpty()) {
+    if (oErgWorkout.isEmpty()) {
       return null;
     }
     ErgWorkout ergWorkout = oErgWorkout.get();
 
-    return workoutSplitsService.createTemplateWorkoutFromSplits(ergWorkout, cloneToTemplateDTO.getTeam());
+    return workoutSplitsService.createTemplateWorkoutFromSplits(
+        ergWorkout, cloneToTemplateDTO.getTeam());
   }
 
   @PostMapping(value = "/clone/water/toTemplateWorkout")
-  public @ResponseBody TemplateWorkout cloneWaterToTemplateWorkout(@RequestBody CloneToTemplateDTO cloneToTemplateDTO){
-    Optional<WaterWorkout> oWaterWorkout = waterWorkoutRepository.findById(cloneToTemplateDTO.getWorkoutId());
+  public @ResponseBody TemplateWorkout cloneWaterToTemplateWorkout(
+      @RequestBody CloneToTemplateDTO cloneToTemplateDTO) {
+    Optional<WaterWorkout> oWaterWorkout =
+        waterWorkoutRepository.findById(cloneToTemplateDTO.getWorkoutId());
 
-    if(oWaterWorkout.isEmpty()) {
+    if (oWaterWorkout.isEmpty()) {
       return null;
     }
     WaterWorkout waterWorkout = oWaterWorkout.get();
 
-    return workoutSplitsService.createTemplateWorkoutFromSplits(waterWorkout, cloneToTemplateDTO.getTeam());
+    return workoutSplitsService.createTemplateWorkoutFromSplits(
+        waterWorkout, cloneToTemplateDTO.getTeam());
   }
 }

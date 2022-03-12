@@ -15,7 +15,9 @@ import java.sql.Timestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true, value = {"erg_workout", "ergWorkout", "workout"})
+@JsonIgnoreProperties(
+    ignoreUnknown = true,
+    value = {"erg_workout", "ergWorkout", "workout"})
 public class ErgSplit implements Split<ErgWorkout> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -22,10 +22,10 @@ public class WorkoutSplitsService {
     this.splitRepository = splitRepository;
   }
 
-  public void addAthleteToWaterSplit(WaterSplit s, WaterWorkoutAthleteSplit was){
+  public void addAthleteToWaterSplit(WaterSplit s, WaterWorkoutAthleteSplit was) {
     List<WaterWorkoutAthleteSplit> waterWorkoutAthleteSplits = s.getWaterWorkoutAthleteSplits();
 
-    if(waterWorkoutAthleteSplits == null || waterWorkoutAthleteSplits.isEmpty()){
+    if (waterWorkoutAthleteSplits == null || waterWorkoutAthleteSplits.isEmpty()) {
       waterWorkoutAthleteSplits = new ArrayList<>();
     }
 
@@ -78,7 +78,8 @@ public class WorkoutSplitsService {
     return shiftedSplits;
   }
 
-  public <T extends Workout> TemplateWorkout createTemplateWorkoutFromSplits(Workout<? extends Split> w, Long team) {
+  public <T extends Workout> TemplateWorkout createTemplateWorkoutFromSplits(
+      Workout<? extends Split> w, Long team) {
     List<? extends Split> splits = w.getSplits();
     List<TemplateSplit> templateSplits =
         splits.stream()

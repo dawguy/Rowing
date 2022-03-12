@@ -15,7 +15,9 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true, value = {"templateWorkouts.splits"})
+@JsonIgnoreProperties(
+    ignoreUnknown = true,
+    value = {"templateWorkouts.splits"})
 public class TemplateWorkout implements Workout<TemplateSplit> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

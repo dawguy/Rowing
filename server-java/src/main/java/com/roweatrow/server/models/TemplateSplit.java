@@ -14,7 +14,9 @@ import java.sql.Timestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true, value = {"templateWorkout", "workout"})
+@JsonIgnoreProperties(
+    ignoreUnknown = true,
+    value = {"templateWorkout", "workout"})
 public class TemplateSplit implements Split<TemplateWorkout> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

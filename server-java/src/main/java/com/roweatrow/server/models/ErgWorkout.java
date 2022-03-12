@@ -16,7 +16,9 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true, value = {})
+@JsonIgnoreProperties(
+    ignoreUnknown = true,
+    value = {})
 public class ErgWorkout implements Workout<ErgSplit> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

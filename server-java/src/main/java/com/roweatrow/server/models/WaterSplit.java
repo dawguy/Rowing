@@ -16,7 +16,9 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true, value = {"waterWorkout", "workout"})
+@JsonIgnoreProperties(
+    ignoreUnknown = true,
+    value = {"waterWorkout", "workout"})
 public class WaterSplit implements Split<WaterWorkout> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -146,12 +148,14 @@ public class WaterSplit implements Split<WaterWorkout> {
     setWaterWorkout(workout);
   }
 
-  // Note: It appears that implementing a getter is all that's needed for a property to appear when serialized.
+  // Note: It appears that implementing a getter is all that's needed for a property to appear when
+  // serialized.
   public List<WaterWorkoutAthleteSplit> getWaterWorkoutAthleteSplits() {
     return waterWorkoutAthleteSplits;
   }
 
-  public void setWaterWorkoutAthleteSplits(List<WaterWorkoutAthleteSplit> waterWorkoutAthleteSplits){
+  public void setWaterWorkoutAthleteSplits(
+      List<WaterWorkoutAthleteSplit> waterWorkoutAthleteSplits) {
     this.waterWorkoutAthleteSplits = waterWorkoutAthleteSplits;
   }
 }

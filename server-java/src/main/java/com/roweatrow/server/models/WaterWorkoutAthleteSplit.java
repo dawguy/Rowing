@@ -13,7 +13,9 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true, value = {"waterSplit"})
+@JsonIgnoreProperties(
+    ignoreUnknown = true,
+    value = {"waterSplit"})
 public class WaterWorkoutAthleteSplit {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,7 +71,7 @@ public class WaterWorkoutAthleteSplit {
     return this.waterSplit;
   }
 
-  public void setWaterSplit(WaterSplit waterSplit){
+  public void setWaterSplit(WaterSplit waterSplit) {
     this.waterSplit = waterSplit;
   }
 }
