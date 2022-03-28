@@ -13,7 +13,7 @@
 (defn active-text-page [] [:div @active-text])
 
 (defn ^:dev/after-load start []
-  (rdom/render [:div [views/navbar]] (js/document.getElementById "app"))
+  (rdom/render views/mainPage (js/document.getElementById "app"))
   )
 
 (defn init []
