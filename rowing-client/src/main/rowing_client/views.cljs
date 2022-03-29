@@ -14,12 +14,12 @@
 
 (defn workoutContainer [workout]
   [:tr
-   [:td.w-full.lg:w-auto.p-3.text-center.border.border-b.block.lg:table-cell.relative.lg:static (get-in workout [:boat :name])]
-   [:td.w-full.lg:w-auto.p-3.text-center.border.border-b.block.lg:table-cell.relative.lg:static (get-in workout [:athlete :name])]
-   [:td.w-full.lg:w-auto.p-3.text-center.border.border-b.block.lg:table-cell.relative.lg:static (:date workout)]
-   [:td.w-full.lg:w-auto.p-3.text-center.border.border-b.block.lg:table-cell.relative.lg:static (:power workout)]
-   [:td.w-full.lg:w-auto.p-3.text-center.border.border-b.block.lg:table-cell.relative.lg:static (:duration workout)]
-   [:td.w-full.lg:w-auto.p-3.text-center.border.border-b.block.lg:table-cell.relative.lg:static (count (:splits workout))]
+   [:td.w-full.p-3.text-center.border.lg:table-cell.border-b.hidden (get-in workout [:boat :name])]
+   [:td.w-full.p-3.text-center.border.lg:table-cell.border-b.hidden (get-in workout [:athlete :name])]
+   [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:date workout)]
+   [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:power workout)]
+   [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:duration workout)]
+   [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (count (:splits workout))]
    ])
 
 (def sample-workouts [
@@ -31,15 +31,16 @@
 (defn workoutsContainer []
   [:div.sm:px-7.w-full
    [:div.bg-white.py-4.md:py-7.px-4.md:px-8.xl:px-10
-    [:div.mt-7.overflow-x-auto
+      [:div.relative.w-full.px-4.max-w-full.flex-grow.flex-1 [:h3.text-lg "Workouts"]]
+    [:div.mt-7.block.w-full.overflow-x-auto
      [:table.w-full.whitespace-nowrap
       [:thead [:tr
-               [:th.p-3.font-bold.uppercase.border.hidden.lg:table-cell "Boat"]
-               [:th.p-3.font-bold.uppercase.border.hidden.lg:table-cell "Athlete"]
-               [:th.p-3.font-bold.uppercase.border.hidden.lg:table-cell "Date"]
-               [:th.p-3.font-bold.uppercase.border.hidden.lg:table-cell "Duration"]
-               [:th.p-3.font-bold.uppercase.border.hidden.lg:table-cell "Power"]
-               [:th.p-3.font-bold.uppercase.border.hidden.lg:table-cell "Splits"]]]
+               [:th.p-3.font-bold.uppercase.border.lg:table-cell.hidden "Boat"]
+               [:th.p-3.font-bold.uppercase.border.lg:table-cell.hidden "Athlete"]
+               [:th.p-3.font-bold.uppercase.border.lg:table-cell "Date"]
+               [:th.p-3.font-bold.uppercase.border.lg:table-cell "Duration"]
+               [:th.p-3.font-bold.uppercase.border.lg:table-cell "Power"]
+               [:th.p-3.font-bold.uppercase.border.lg:table-cell "Splits"]]]
       [:tbody
        (map workoutContainer sample-workouts)
        ]]]]])
