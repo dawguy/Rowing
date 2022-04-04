@@ -56,7 +56,7 @@
    {:duration 600 :power 200 :seq 0}
    {:duration 600 :power 225 :seq 1}
    {:duration 600 :power 200 :seq 2}
-   {:duration 600 :power 200 :seq 3}
+   {:duration 600 :power 190 :seq 3}
    {:duration 600 :power 225 :seq 4}
    {:duration 600 :power 200 :seq 5}
   ])
@@ -76,12 +76,12 @@
    [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:date workout)]
    [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:power workout)]
    [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:duration workout)]
-   [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (graphs/power-profile (:splits workout))]
+   [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (graphs/workout (:splits workout))]
    ])
 
 (def sample-workouts [
-                      {:id 1 :duration 40 :power 200 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits power-profile-sample-data}
-                      {:id 2 :duration 500 :power 220 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits power-profile-sample-data}
+                      {:id 1 :duration 40 :power 200 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits splits-sample-data}
+                      {:id 2 :duration 500 :power 220 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits splits-sample-data-2}
                       {:id 3 :duration 240 :power 200 :athlete {:id 1 :name "David Wright"} :boat {:id 1 :name "Beaver"} :date "2022-10-05" :splits power-profile-sample-data}
                       ])
 
@@ -95,18 +95,16 @@
                [:th.p-3.font-bold.uppercase.border.lg:table-cell.hidden "Boat"]
                [:th.p-3.font-bold.uppercase.border.lg:table-cell.hidden "Athlete"]
                [:th.p-3.font-bold.uppercase.border.lg:table-cell "Date"]
-               [:th.p-3.font-bold.uppercase.border.lg:table-cell "Duration"]
                [:th.p-3.font-bold.uppercase.border.lg:table-cell "Power"]
+               [:th.p-3.font-bold.uppercase.border.lg:table-cell "Duration"]
                [:th.p-3.font-bold.uppercase.border.lg:table-cell "Splits"]]]
       [:tbody
        (map workoutContainer sample-workouts)
        ]]]]])
 
 
-
-
 (defn splitsContainer []
-  [:div])
+  [:div (graphs/workout (:splits (first sample-workouts)))])
 
 (defn pageContent []
   [:div workoutsContainer])

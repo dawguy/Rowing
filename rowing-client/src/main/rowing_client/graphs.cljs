@@ -28,32 +28,35 @@
 (defn appendDurations [splits]
   ((fn helper[arr rem sum]
      (cond (< 1 (count rem))
-           (helper (conj arr (assoc (first rem) :x sum)) (rest rem) (+ sum (:duration (first rem))))
-           :else (conj arr (assoc (first rem) :x sum)))
+           (helper (conj arr (assoc (first rem) :pos sum)) (rest rem) (+ sum (:duration (first rem))))
+           :else (conj arr (assoc (first rem) :pos sum)))
      ) [] splits 0))
 
-(defn workout [splits]
+(defn workout [s]
   (let
-    [size 400
+    [splits (appendDurations s)
+     size 400
      durations (map :duration splits)
      powers (map :power splits)
+     endPos (map #(+ (:pos %) (:duration %)) splits)
      y (->
          (d3/scaleLinear)
          (.domain (into-array [0 (apply max powers)]))
          (.range (into-array [size 0])))
      x (->
-             (d3/scaleLinear)
-             (.domain (into-array [0 (apply + powers)]))    ;; Essentially the goal here is to maximize
-             (.range (int-array [0 size])))]
+         (d3/scaleLinear)
+         (.domain (into-array [0 (apply max endPos)]))    ;; Essentially the goal here is to maximize
+         (.range (int-array [0 size])))]
     [:svg
      {:viewBox (str "0 0 " size " " size)}
+     (.log js/console (str (last endPos) "-" (first powers) "-" (first durations)))
      (map
        (fn
-         [{:keys [duration power split seq]}]
-         [:g
-          {:key seq, :transform (str "translate(" (x duration) "," -10 ")")} ;; Might want to change -10 to an alternating wiggle value for less overlap
+         [{:keys [duration power seq pos]}]
+           [:g
+          ^{:key (str seq "+" pos)} {:transform (str "translate(" (x pos) "," (y power) ")")} ;; Might want to change -10 to an alternating wiggle value for less overlap
           [:rect
-           {:x (x seq),
-            :height (size - (y power)),
-            :fill (color letter),
-            :width (x frequency)}]]) (appendDurations splits))]))
+           {
+            ;:x (x pos),
+            :height (- size (y power)),
+            :width (x duration)}]]) splits)]))
