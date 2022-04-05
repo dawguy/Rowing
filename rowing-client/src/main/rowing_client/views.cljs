@@ -76,7 +76,7 @@
    [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:date workout)]
    [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:power workout)]
    [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:duration workout)]
-   [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (graphs/workout (:splits workout))]
+   [:td.w-full.p-3.text-center.border.lg:table-cell.border-b [:a {:href (str "/workout/" (:id workout))} (graphs/workout (:splits workout))]]
    ])
 
 (def sample-workouts [
