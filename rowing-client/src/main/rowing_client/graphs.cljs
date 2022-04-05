@@ -49,14 +49,14 @@
          (.range (int-array [0 size])))]
     [:svg
      {:viewBox (str "0 0 " size " " size)}
-     (.log js/console (str (last endPos) "-" (first powers) "-" (first durations)))
      (map
        (fn
          [{:keys [duration power seq pos]}]
-           [:g
-          ^{:key (str seq "+" pos)} {:transform (str "translate(" (x pos) "," (y power) ")")} ;; Might want to change -10 to an alternating wiggle value for less overlap
+         [:g
+          {:key (random-uuid)
+           :transform (str "translate(" (x pos) "," (y power) ")")}
           [:rect
            {
-            ;:x (x pos),
+            :key (random-uuid)
             :height (- size (y power)),
             :width (x duration)}]]) splits)]))
