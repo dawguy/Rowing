@@ -1,7 +1,8 @@
 (ns rowing-client.views
   (:require [reagent.dom :as rdom]
             [d3 :as d3]
-            [rowing-client.graphs :as graphs]))
+            [rowing-client.graphs :as graphs]
+            [rowing-client.splits :as splits]))
 
 (defn render [comp]
   (rdom/render comp (js/document.getElementById "app")))
@@ -69,7 +70,16 @@
      [:a.text-gray-300.rounded-md.px-3.py-2 {:href "/workouts"} "Workouts"]
      [:a.text-gray-300.rounded-md.px-3.py-2 {:href "/calendar"} "Calendar"]]]])
 
-(defn workoutContainer [workout]
+(def sample-workouts [
+                      {:id 1 :duration 40 :power 200 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits splits-sample-data}
+                      {:id 2 :duration 500 :power 220 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits splits-sample-data-2}
+                      {:id 3 :duration 240 :power 200 :athlete {:id 1 :name "David Wright"} :boat {:id 1 :name "Beaver"} :date "2022-10-05" :splits power-profile-sample-data}
+                      ])
+
+(def sample-workout-1 {:id 1 :duration 40 :power 200 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits splits-sample-data})
+(def sample-workout-2 {:id 2 :duration 500 :power 220 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits splits-sample-data-2})
+
+(defn workoutListContainer [workout]
   [:tr {:key (random-uuid)}
    [:td.w-full.p-3.text-center.border.lg:table-cell.border-b.hidden (get-in workout [:boat :name])]
    [:td.w-full.p-3.text-center.border.lg:table-cell.border-b.hidden (get-in workout [:athlete :name])]
@@ -78,15 +88,6 @@
    [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:duration workout)]
    [:td.w-full.p-3.text-center.border.lg:table-cell.border-b [:a {:href (str "/workout/" (:id workout))} (graphs/workout (:splits workout))]]
    ])
-
-(def sample-workouts [
-                      {:id 1 :duration 40 :power 200 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits splits-sample-data}
-                      {:id 2 :duration 500 :power 220 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits splits-sample-data-2}
-                      {:id 3 :duration 240 :power 200 :athlete {:id 1 :name "David Wright"} :boat {:id 1 :name "Beaver"} :date "2022-10-05" :splits power-profile-sample-data}
-                      ])
-
-(def sample-workout-1 [{:id 1 :duration 40 :power 200 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits splits-sample-data}])
-(def sample-workout-2 [{:id 2 :duration 500 :power 220 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits splits-sample-data-2}])
 
 (defn workoutsContainer [w]
   [:div.sm:px-7.w-full
@@ -102,19 +103,62 @@
                [:th.p-3.font-bold.uppercase.border.lg:table-cell "Duration"]
                [:th.p-3.font-bold.uppercase.border.lg:table-cell "Splits"]]]
       [:tbody
-       (map workoutContainer w)
+       (map workoutListContainer w)
        ]]]]])
 
+(defn split-over-distance [] true)
+
+(defn splitListContainer [split]
+  (.log js/console "hLEOO")
+ [:tr {:key (random-uuid)}
+  [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:seq split)]
+  (cond (split-over-distance)
+        [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:power split)]
+        :else [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:distance split)])
+  [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:duration split)]])
+
+(defn workoutContainer [w]
+  (.log js/console w)
+
+  [:div.sm:px-7.w-full
+   [:h1.text-xl "Workout"]
+   ;; Summation Stats
+   [:div.flex.flex-col.justify-left
+    [:div.flex.flex-row
+     [:div.flex.justify-left {:class "w-1/3"} [:h3.text-lg (get-in w [:boat :name])]]
+     [:div.flex.justify-left {:class "w-1/3"}  [:h3.text-lg (:date w)]]]
+    [:div.flex.flex-row
+     [:div.flex.justify-left {:class "w-1/3"} [:h3.text-lg (get-in w [:athlete :name])]]
+     [:div.flex.justify-left {:class "w-1/3"}
+        [:h3.text-lg "Average power: " (.toFixed (/ (apply + (map :power (:splits w))) (count (:splits w))) 2)]]
+     ]
+   ]
+   ;; Graph
+   [:div.max-w-md.(graphs/workout (:splits w))]
+   ;; Table
+   [:div.bg-white.py-4.md:py-7.px-4.md:px-8.xl:px-10
+    [:div.mt-7.block.w-full.overflow-x-auto
+     [:table.w-full.whitespace-nowrap
+      [:thead [:tr
+               [:th.p-1.font-bold.uppercase.border.table-cell "Sequence"]
+               ;; TODO This should use distance for water and split for erg
+               (cond (split-over-distance)
+                 [:th.p-3.font-bold.uppercase.border.table-cell "Split"]
+                 :else [:th.p-3.font-bold.uppercase.border.table-cell "Distance"])
+               [:th.p-3.font-bold.uppercase.border.table-cell "Duration"]]]
+      [:tbody
+       (map splitListContainer (:splits w))
+       ]]]]
+   ])
 
 (defn splitsContainer []
   [:div (graphs/workout (:splits (first sample-workouts)))])
 
 (defn pageContent []
-  [:div workoutsContainer])
-
+  [:div (workoutContainer sample-workout-1)])
 
 (defn mainPage []
   [:div.min-h-screen.bg-gray-100
    [navbar]
-   (workoutsContainer sample-workouts)
+   [pageContent]
    ])
