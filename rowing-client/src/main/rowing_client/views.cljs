@@ -113,7 +113,7 @@
  [:tr {:key (random-uuid)}
   [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:seq split)]
   (cond (split-over-distance)
-        [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:power split)]
+        [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (splits/powerToSplit (:power split))]
         :else [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:distance split)])
   [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:duration split)]])
 
@@ -121,18 +121,20 @@
   (.log js/console w)
 
   [:div.sm:px-7.w-full
-   [:h1.text-xl "Workout"]
+   [:h1.text-2xl "Workout"]
    ;; Summation Stats
    [:div.flex.flex-col.justify-left
     [:div.flex.flex-row
-     [:div.flex.justify-left {:class "w-1/3"} [:h3.text-lg (get-in w [:boat :name])]]
-     [:div.flex.justify-left {:class "w-1/3"}  [:h3.text-lg (:date w)]]]
+     [:div.flex.justify-left.text-lg {:class "w-1/3"}  (get-in w [:boat :name])]
+     [:div.flex.justify-left.text-lg {:class "w-1/3"}  (:date w)]]
     [:div.flex.flex-row
-     [:div.flex.justify-left {:class "w-1/3"} [:h3.text-lg (get-in w [:athlete :name])]]
-     [:div.flex.justify-left {:class "w-1/3"}
-        [:h3.text-lg "Average power: " (.toFixed (/ (apply + (map :power (:splits w))) (count (:splits w))) 2)]]
-     ]
-   ]
+     [:div.flex.justify-left.text-lg {:class "w-1/3"} (get-in w [:athlete :name])]
+     [:div.flex.justify-left.text-lg {:class "w-1/3"}
+        "Average power: " (.toFixed (/ (apply + (map :power (:splits w))) (count (:splits w))) 2)
+     ]]
+    [:div.flex.flex-row
+     [:div.flex.justify-left.text-lg {:class "w-1/3"} "Intervals: " (count (:splits w))]
+     [:div.flex.justify-left.text-lg {:class "w-1/3"} "Duration: " (splits/toTime (apply + (map :duration (:splits w))))]]]
    ;; Graph
    [:div.max-w-md.(graphs/workout (:splits w))]
    ;; Table

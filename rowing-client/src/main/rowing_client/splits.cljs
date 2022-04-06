@@ -9,9 +9,14 @@
         :else s
         ))
 
+(defn toTime [s]
+  (str (Math/floor (/ s 60)) ":" (left-pad 2 (.toFixed (js/Number (rem s 60)) 1))))
+
 (defn powerToSplit [power]
   (let [s (* 500 (Math/cbrt (/ 2.80 power)))]
-               (str (Math/floor (/ s 60)) ":" (left-pad 2 (.toFixed (js/Number (rem s 60)) 1)))))
+               (cond (not= 0 power)
+                   (toTime s)
+                   :else "0:00.0")))
 
 (defn splitSecondsToPower [s]
   (/ 2.80 (Math/pow (/ s 500) 3)))
