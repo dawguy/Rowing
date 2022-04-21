@@ -3,8 +3,7 @@
  :source-paths ["src/main"]
 
  :dependencies
- [[reagent "1.1.1"]
-  [cljs-http "0.1.46"]]
+ [[reagent "1.1.1"]]
 
  :dev-http {8020 "public"}
 
