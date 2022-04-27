@@ -153,14 +153,11 @@
        ]]]]
    ])
 
-(defn splitsContainer []
-  [:div (graphs/workout (:splits (first sample-workouts)))])
+(defn pageContent [page-atom]
+  [:div page-atom])
 
-(defn pageContent []
-  [:div (workoutContainer sample-workout-1)])
-
-(defn mainPage []
+(defn mainPage [page-atom]
   [:div.min-h-screen.bg-gray-100
    [navbar]
-   [pageContent]
+   @page-atom
    ])
