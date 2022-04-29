@@ -153,11 +153,8 @@
        ]]]]
    ])
 
+(defn home []
+  [:div "Welcome home!"])
+
 (defn pageContent [page-atom]
   [:div page-atom])
-
-(defn mainPage [page-atom]
-  [:div.min-h-screen.bg-gray-100
-   [navbar]
-   @page-atom
-   ])
