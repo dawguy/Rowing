@@ -23,7 +23,6 @@
   (rdom/render (mainPage app-db) (js/document.getElementById "app"))
   )
 
-
 ; Seperated because splits are from workouts, not from the request :body
 (defn save-data [vals table-name pk]
   (prn (str "Saving to app-db " table-name " pk " pk " value " vals))
