@@ -91,7 +91,23 @@
   [:div "Welcome home!"])
 
 
+(defn page [data]
+  (fn []
+    (prn @data)
+    (let [target-id (:targetId @data)
+          target (:target @data)]
+      (case (:target @data)
+        :ergWorkout (workoutContainer
+                      (get-in @data [(:target @data) (:targetId @data)])
+                      (get-in @data [:athlete (:athlete (get-in @data [(:target @data) (:targetId @data)]))])
+                      (get-in @data [:boat (:boat (get-in @data [(:target @data) (:targetId @data)]))]))
+        (home)))))
 
+(defn mainPage [data]
+  [:div.min-h-screen.bg-gray-100
+   [navbar]
+   [page data]
+   ])
 
 (comment [] "Collection of helpful REPL snippets"
          (def power-profile-sample-data [{:duration 1 :power 500} {:duration 2 :power 444} {:duration 3 :power 400} {:duration 4 :power 350} {:duration 5 :power 340} {:duration 6 :power 330} {:duration 7 :power 320} {:duration 8 :power 310} {:duration 9 :power 300} {:duration 10 :power 300} {:duration 11 :power 290} {:duration 12 :power 290} {:duration 13 :power 290} {:duration 14 :power 285} {:duration 15 :power 285} {:duration 16 :power 285} {:duration 17 :power 280} {:duration 18 :power 280}])

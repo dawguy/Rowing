@@ -15,27 +15,9 @@
                          }))
 (defonce saved-response (r/atom {}))
 
-(defn page [data]
-  (fn []
-    (prn @data)
-    (let [target-id (:targetId @data)
-          target (:target @data)]
-  (case (:target @data)
-    :ergWorkout (views/workoutContainer
-                  (get-in @data [(:target @data) (:targetId @data)])
-                  (get-in @data [:athlete (:athlete (get-in @data [(:target @data) (:targetId @data)]))])
-                  (get-in @data [:boat (:boat (get-in @data [(:target @data) (:targetId @data)]))]))
-    (views/home)))))
-
-
-(defn mainPage [data]
-  [:div.min-h-screen.bg-gray-100
-   [views/navbar]
-   [page app-db]
-   ])
 
 (defn ^:dev/after-load start []
-  (rdom/render (mainPage app-db) (js/document.getElementById "app"))
+  (rdom/render (views/mainPage app-db) (js/document.getElementById "app"))
   )
 
 ; Seperated because splits are from workouts, not from the request :body
@@ -51,8 +33,6 @@
   (doseq [split (:splits vals)]
     (save-data split :ergSplit (:ergSplit split)))))
 
-
-
 (comment []
          (go (retrieve-erg-workout
                (<! (http/get "http://localhost:8080/workouts/erg/1" {
@@ -62,7 +42,6 @@
                (<! (http/get "http://localhost:8080/workouts/erg/7" {
                                                                      :headers           {"Access-Control-Request-Method" "GET"}
                                                                      :with-credentials? false}))))
-
          )
 
 
