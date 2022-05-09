@@ -58,6 +58,25 @@
     (swap! app-db assoc :targetId (:waterWorkout vals))
     ))
 
+(defn get-request [callback url] (go (callback
+                                       (<! (http/get url {
+                                                          :headers           {"Access-Control-Request-Method" "GET"}
+                                                          :with-credentials? false})))))
+
+(defn send-request [target data]
+  (case target
+    :ergWorkout (get-request retrieve-erg-workout (str "http://localhost:8080/workouts/erg/" (get data "id")))
+    :waterWorkout (get-request retrieve-water-workout (str "http://localhost:8080/workouts/water/" (get data "id")))))
+
+(defn match-url []
+  (let [data (router/decode-url (.. js/window -location -href))]
+    (swap! app-db assoc :target (:target data))
+    (swap! app-db assoc :targetId nil)
+    (send-request (:target data) data))
+  )
+
+(defonce initial-load (match-url))
+
 (comment []
          (go (retrieve-erg-workout
                (<! (http/get "http://localhost:8080/workouts/erg/1" {
