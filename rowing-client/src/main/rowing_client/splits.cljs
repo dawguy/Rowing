@@ -18,6 +18,14 @@
                    (toTime s)
                    :else "0:00.0")))
 
-(defn splitSecondsToPower [s]
+(defn splitSecondsToPower
+  ([s]
   (/ 2.80 (Math/pow (/ s 500) 3)))
+  ([duration distance]
+  (/ duration (/ distance 500))))
 
+(defn add-power [split]
+  (prn (str "add-power :: " split))
+  (if (or (nil? (:power split)) (= 0 (:power split)))
+    (assoc split :power (splitSecondsToPower (:duration split) (:distance split)))
+    split))

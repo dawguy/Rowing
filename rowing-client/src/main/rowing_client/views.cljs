@@ -52,8 +52,8 @@
          :else [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:distance split)])
    [:td.w-full.p-3.text-center.border.lg:table-cell.border-b (:duration split)]])
 
-(defn workoutContainer [w a b]
-   (prn w)
+(defn workoutContainer [w splits a b]
+   (prn w splits)
   [:div.sm:px-7.w-full
    [:h1.text-2xl "Workout"]
    ;; Summation Stats
@@ -64,13 +64,13 @@
     [:div.flex.flex-row
      [:div.flex.justify-left.text-lg {:class "w-1/3"} (:name a)]
      [:div.flex.justify-left.text-lg {:class "w-1/3"}
-      "Average power: " (.toFixed (/ (apply + (map :power (:splits w))) (count (:splits w))) 2)
+      "Average power: " (.toFixed (/ (apply + (map :power splits)) (count splits)) 2)
       ]]
     [:div.flex.flex-row
-     [:div.flex.justify-left.text-lg {:class "w-1/3"} "Intervals: " (count (:splits w))]
-     [:div.flex.justify-left.text-lg {:class "w-1/3"} "Duration: " (splits/toTime (apply + (map :duration (:splits w))))]]]
+     [:div.flex.justify-left.text-lg {:class "w-1/3"} "Intervals: " (count splits)]
+     [:div.flex.justify-left.text-lg {:class "w-1/3"} "Duration: " (splits/toTime (apply + (map :duration splits)))]]]
    ;; Graph
-   [:div.max-w-md. (graphs/workout (:splits w))]
+   [:div.max-w-md. (graphs/workout splits)]
    ;; Table
    [:div.bg-white.py-4.md:py-7.px-4.md:px-8.xl:px-10
     [:div.mt-7.block.w-full.overflow-x-auto
@@ -83,7 +83,7 @@
                      :else [:th.p-3.font-bold.uppercase.border.table-cell "Distance"])
                [:th.p-3.font-bold.uppercase.border.table-cell "Duration"]]]
       [:tbody
-       (map splitListContainer (:splits w))
+       (map splitListContainer splits)
        ]]]]
    ])
 
@@ -95,10 +95,17 @@
   (fn []
     (prn @data)
     (let [target-id (:targetId @data)
-          target (:target @data)]
+          target (:target @data)
+          target-data (get-in @data [(:target @data) (:targetId @data)])]
       (case (:target @data)
         :ergWorkout (workoutContainer
-                      (get-in @data [(:target @data) (:targetId @data)])
+                      target-data
+                      (map #(get-in @data [:ergSplit %]) (map :ergSplit (:splits target-data)))
+                      (get-in @data [:athlete (:athlete (get-in @data [(:target @data) (:targetId @data)]))])
+                      (get-in @data [:boat (:boat (get-in @data [(:target @data) (:targetId @data)]))]))
+        :waterWorkout (workoutContainer
+                      target-data
+                      (map #(get-in @data [:waterSplit %]) (map :waterSplit (:splits target-data)))
                       (get-in @data [:athlete (:athlete (get-in @data [(:target @data) (:targetId @data)]))])
                       (get-in @data [:boat (:boat (get-in @data [(:target @data) (:targetId @data)]))]))
         (home)))))
@@ -116,4 +123,18 @@
          (def sample-workouts [{:id 1 :duration 40 :power 200 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits splits-sample-data} {:id 2 :duration 500 :power 220 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits splits-sample-data-2} {:id 3 :duration 240 :power 200 :athlete {:id 1 :name "David Wright"} :boat {:id 1 :name "Beaver"} :date "2022-10-05" :splits power-profile-sample-data}])
          (def sample-workout-1 {:id 1 :duration 40 :power 200 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits splits-sample-data})
          (def sample-workout-2 {:id 2 :duration 500 :power 220 :athlete {:id 1 :name "David Wright"} :boat {:id 0 :name "Erg"} :date "2022-10-05" :splits splits-sample-data-2})
+         (def target-data {:ergWorkout 7,
+                                          :date 1645678800000,
+                                          :athlete 1,
+                                          :assignedWorkout 2,
+                                          :workout 7,
+                                          :splits [{:ergSplit 4, :seq 0, :duration 100, :distance 1000, :heartRate nil, :power nil}
+                                                   {:ergSplit 5, :seq 1, :duration 100, :distance 500, :heartRate nil, :power nil}
+                                                   {:ergSplit 6, :seq 2, :duration 100, :distance 1000, :heartRate nil, :power nil}
+                                                   {:ergSplit 7, :seq 3, :duration 100, :distance 250, :heartRate nil, :power nil}
+                                                   {:ergSplit 8, :seq 4, :duration 100, :distance 250, :heartRate nil, :power nil}
+                                                   {:ergSplit 9, :seq 6, :duration 100, :distance 1000, :heartRate nil, :power nil}
+                                                   {:ergSplit 10, :seq 7, :duration 100, :distance 1000, :heartRate nil, :power nil}
+                                                   {:ergSplit 11, :seq 8, :duration 100, :distance 1000, :heartRate nil, :power nil}],
+                                          :name ""})
          )
