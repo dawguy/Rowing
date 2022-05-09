@@ -60,7 +60,7 @@
    [:div.flex.flex-col.justify-left
     [:div.flex.flex-row
      [:div.flex.justify-left.text-lg {:class "w-1/3"} (:name b)]
-     [:div.flex.justify-left.text-lg {:class "w-1/3"} (:date w)]]
+     [:div.flex.justify-left.text-lg {:class "w-1/3"} (.toDateString (js/Date. (:date w)))]]
     [:div.flex.flex-row
      [:div.flex.justify-left.text-lg {:class "w-1/3"} (:name a)]
      [:div.flex.justify-left.text-lg {:class "w-1/3"}
@@ -100,14 +100,14 @@
       (case (:target @data)
         :ergWorkout (workoutContainer
                       target-data
-                      (map #(get-in @data [:ergSplit %]) (map :ergSplit (:splits target-data)))
-                      (get-in @data [:athlete (:athlete (get-in @data [(:target @data) (:targetId @data)]))])
-                      (get-in @data [:boat (:boat (get-in @data [(:target @data) (:targetId @data)]))]))
+                      (map #(get-in @data [:ergSplit %]) (:splits target-data))
+                      (get-in @data [:athlete (:athlete (get-in @data [target target-id]))])
+                      (get-in @data [:boat (:boat (get-in @data [target target-id]))]))
         :waterWorkout (workoutContainer
                       target-data
-                      (map #(get-in @data [:waterSplit %]) (map :waterSplit (:splits target-data)))
-                      (get-in @data [:athlete (:athlete (get-in @data [(:target @data) (:targetId @data)]))])
-                      (get-in @data [:boat (:boat (get-in @data [(:target @data) (:targetId @data)]))]))
+                      (map #(get-in @data [:waterSplit %]) (:splits target-data))
+                      (get-in @data [:athlete (:athlete (get-in @data [target target-id]))])
+                      (get-in @data [:boat (:boat (get-in @data [target target-id]))]))
         (home)))))
 
 (defn mainPage [data]
