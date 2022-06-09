@@ -15,6 +15,9 @@ Project goals:
 Fun projects once the above goals are all accomlished.
 
 1: Recommendations for workouts.
+
 2: Work on getting an actual team to use the application.
+
 2 a: Especially work on making it as easy as possible for coxswains/athletes to input their own times.
+
 3: Integration with Concept2 Online logbook
